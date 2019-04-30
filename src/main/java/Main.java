@@ -10,15 +10,17 @@ public class Main {
         Role role2 = new Role(2L, "Пользователь");
         roleService.saveUser(role1);
         roleService.saveUser(role2);
-//        User userone = new User("София",
-//                "yksd",
-//                "@mail.ru",
-//                role1);
-//        User usertwo = new User("Маким",
-//                "lksfj",
-//                "@bk.ru",
-//                role2);
-//        service.saveUser(userone);
-//        service.saveUser(usertwo);
+        User userone = new User(1,"София",
+                "yksd",
+                "@mail.ru",
+                role1);
+        User usertwo = new User(2,"Маким",
+                "lksfj",
+                "@bk.ru",
+                role2);
+        service.saveUser(userone);
+        service.saveUser(usertwo);
+        System.out.println(userone);
+        System.out.println(usertwo);
     }
 }

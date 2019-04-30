@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserDaoImplements implements UserDaoInterface {
 
-    public User findById(int id) {
+    public User findById(long id) {
         return HibernateSessionFactoryUtil
                 .getSessionFactory()
                 .openSession()

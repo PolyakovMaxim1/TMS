@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface RoleDaoInterface {
 
-    public Role findById(int id);
+    public Role findById(long id);
 
     public void save(Role role);
 

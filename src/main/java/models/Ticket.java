@@ -53,6 +53,7 @@ public class Ticket {
     @OneToMany (mappedBy = "ticket")
     private Set<TicketAnswer> answers;
 
+
     public Ticket(){
 
     }
@@ -143,6 +144,14 @@ public class Ticket {
 
     public void setDetectionProblemDescription(String detectionProblemDescription) {
         this.detectionProblemDescription = detectionProblemDescription;
+    }
+
+    public Set<TicketAnswer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<TicketAnswer> answers) {
+        this.answers = answers;
     }
 
     public Object getObject() {

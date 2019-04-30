@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserDaoInterface {
 
-    public User findById(int id);
+    public User findById(long id);
 
     public void save(User user);
 

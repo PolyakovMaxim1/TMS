@@ -1,6 +1,8 @@
 package models;
 
 import jdk.internal.instrumentation.TypeMapping;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.*;
 import javax.persistence.*;
 
@@ -9,8 +11,8 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column (name = "user_id")
+    @GenericGenerator (name = "hilogen", strategy = "increment")
     private long id;
 
     @Column (name = "user_name")
@@ -29,9 +31,16 @@ public class User {
     private Role role;
 
     @OneToMany (mappedBy = "user")
-    private Set<TicketAnswer> answers1;
+    private Set<TicketAnswer> answers;
 
     public User(String name, String password, String email, Role role){
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
+    public User(long id, String name, String password, String email, Role role){
+        this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
@@ -52,6 +61,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<TicketAnswer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<TicketAnswer> answers) {
+        this.answers = answers;
     }
 
     public String getPassword() {

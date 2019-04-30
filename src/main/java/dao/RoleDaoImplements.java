@@ -9,7 +9,7 @@ import java.util.List;
 
 public class RoleDaoImplements implements RoleDaoInterface {
 
-    public Role findById(int id) {
+    public Role findById(long id) {
         return HibernateSessionFactoryUtil
                 .getSessionFactory()
                 .openSession()

@@ -24,6 +24,7 @@ public class HibernateSessionFactoryUtil {
                 configuration.addAnnotatedClass(TicketCategory.class);
                 configuration.addAnnotatedClass(TicketPriority.class);
                 configuration.addAnnotatedClass(TicketStatus.class);
+                configuration.addAnnotatedClass(TicketAnswer.class);
 
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties());

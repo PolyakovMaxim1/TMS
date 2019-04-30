@@ -20,14 +20,19 @@ public class TicketAnswer {
     @JoinColumn (name = "respond_id")
     private User user;
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Column (name = "date_answer")
     private Date dateAnswer;
 
     @Column (name = "message")
     private String message;
-
-    @OneToMany (mappedBy = "users")
-    
 
     public long getId() {
         return id;

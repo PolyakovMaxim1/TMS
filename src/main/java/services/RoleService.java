@@ -10,7 +10,7 @@ public class RoleService {
     public RoleService() {
     }
 
-    public Role findUser(int id) {
+    public Role findUser(long id) {
         return roleDao.findById(id);
     }
 
