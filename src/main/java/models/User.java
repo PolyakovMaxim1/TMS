@@ -29,7 +29,7 @@ public class User {
     private Role role;
 
     @OneToMany (mappedBy = "user")
-    private Set<TicketAnswer> answers;
+    private Set<TicketAnswer> answers1;
 
     public User(String name, String password, String email, Role role){
         this.name = name;
