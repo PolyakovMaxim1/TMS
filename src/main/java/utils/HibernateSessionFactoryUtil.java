@@ -1,7 +1,7 @@
 package utils;
 
-import models.Role;
-import models.User;
+import models.*;
+import models.Object;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -17,6 +17,14 @@ public class HibernateSessionFactoryUtil {
                 Configuration configuration = new Configuration().configure();
                 configuration.addAnnotatedClass(User.class);
                 configuration.addAnnotatedClass(Role.class);
+                configuration.addAnnotatedClass(StatusInfo.class);
+                configuration.addAnnotatedClass(UserStatus.class);
+                configuration.addAnnotatedClass(Object.class);
+                configuration.addAnnotatedClass(Ticket.class);
+                configuration.addAnnotatedClass(TicketCategory.class);
+                configuration.addAnnotatedClass(TicketPriority.class);
+                configuration.addAnnotatedClass(TicketStatus.class);
+
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());

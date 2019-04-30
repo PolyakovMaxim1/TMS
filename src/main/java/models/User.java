@@ -1,7 +1,7 @@
 package models;
 
 import jdk.internal.instrumentation.TypeMapping;
-
+import java.util.*;
 import javax.persistence.*;
 
 @Entity
@@ -11,16 +11,25 @@ public class User {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column (name = "user_id")
-    private int id;
+    private long id;
+
     @Column (name = "user_name")
     private String name;
+
     @Column (name = "user_password")
     private String password;
+
+    @Column (name = "count_make_bug")
+    private int countMakeBug;
+
     private String email;
 
-    @OneToOne (mappedBy = "role_id", fetch = FetchType.LAZY)
-    @JoinColumn (name = "role")
+    @OneToOne (fetch = FetchType.LAZY)
+    @JoinColumn (name = "role_id")
     private Role role;
+
+    @OneToMany (mappedBy = "user")
+    private Set<TicketAnswer> answers;
 
     public User(String name, String password, String email, Role role){
         this.name = name;
@@ -28,11 +37,12 @@ public class User {
         this.email = email;
         this.role = role;
     }
-    public int getId() {
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -52,6 +62,14 @@ public class User {
         this.password = password;
     }
 
+    public int getCountMakeBug() {
+        return countMakeBug;
+    }
+
+    public void setCountMakeBug(int countMakeBug) {
+        this.countMakeBug = countMakeBug;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -66,5 +84,17 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", countMakeBug=" + countMakeBug +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

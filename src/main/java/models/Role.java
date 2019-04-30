@@ -7,29 +7,40 @@ public class Role {
 
     @Id
     @Column (name = "role_id")
-    private int id;
+    private long id;
 
     @Column (name = "role_name")
     private String name;
 
-    public Role(int id, String name){
+    public Role(){
+
+    }
+    public Role(long id, String name){
         this.id = id;
         this.name = name;
     }
 
-    public int getId(){
+    public long getId() {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
