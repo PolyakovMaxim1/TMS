@@ -1,18 +1,18 @@
-package models;
+package netCracker.tms.models;
 
 import javax.persistence.*;
 
 @Entity
-@Table (name = "ticket_priority")
-public class TicketPriority {
+@Table (name = "object")
+public class Object {
     @Id
-    @Column (name = "id_ticket_priority")
+    @Column (name = "id_object")
     private long id;
 
-    @Column (name = "name_ticket_name")
+    @Column (name = "name_object")
     private String name;
 
-    public TicketPriority(){
+    public Object(){
 
     }
 
@@ -34,7 +34,7 @@ public class TicketPriority {
 
     @Override
     public String toString() {
-        return "TicketPriority{" +
+        return "Object{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

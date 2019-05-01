@@ -1,6 +1,5 @@
-package models;
+package netCracker.tms.models;
 
-import jdk.internal.instrumentation.TypeMapping;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.*;
@@ -45,6 +44,9 @@ public class User {
         this.password = password;
         this.email = email;
         this.role = role;
+    }
+    public User(){
+
     }
 
     public long getId() {

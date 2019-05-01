@@ -1,45 +1,43 @@
-package dao;
+package netCracker.tms.dao;
 
-import models.Role;
-import models.User;
+import netCracker.tms.models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import utils.HibernateSessionFactoryUtil;
-import java.util.List;
+import netCracker.tms.utils.HibernateSessionFactoryUtil;
 
-public class RoleDaoImplements implements RoleDaoInterface {
+public class UserDaoImplements implements UserDaoInterface {
 
-    public Role findById(long id) {
+    public User findById(long id) {
         return HibernateSessionFactoryUtil
                 .getSessionFactory()
                 .openSession()
-                .get(Role.class, id);
+                .get(User.class, id);
     }
 
-    public void save(Role role) {
+    public void save(User user) {
         Session session = HibernateSessionFactoryUtil
                 .getSessionFactory()
                 .openSession();
         Transaction transaction = session.beginTransaction();
-        session.save(role);
+        session.save(user);
         transaction.commit();
         session.close();
     }
 
-    public void update(Role role) {
+    public void update(User user) {
         Session session = HibernateSessionFactoryUtil
                 .getSessionFactory()
                 .openSession();
         Transaction transaction = session.beginTransaction();
-        session.update(role);
+        session.update(user);
         transaction.commit();
         session.close();
     }
 
-    public void delete(Role role) {
+    public void delete(User user) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        session.delete(role);
+        session.delete(user);
         transaction.commit();
         session.close();
     }

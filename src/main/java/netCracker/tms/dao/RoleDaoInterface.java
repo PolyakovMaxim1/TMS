@@ -1,11 +1,6 @@
-package dao;
+package netCracker.tms.dao;
 
-import models.Role;
-import models.User;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import utils.HibernateSessionFactoryUtil;
-import java.util.List;
+import netCracker.tms.models.Role;
 
 public interface RoleDaoInterface {
 

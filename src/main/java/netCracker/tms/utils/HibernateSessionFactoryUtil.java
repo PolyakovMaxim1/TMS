@@ -1,7 +1,7 @@
-package utils;
+package netCracker.tms.utils;
 
-import models.*;
-import models.Object;
+import netCracker.tms.models.*;
+import netCracker.tms.models.Object;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -37,3 +37,9 @@ public class HibernateSessionFactoryUtil {
         return sessionFactory;
     }
 }
+// сервис юзер -
+// в ресурсес
+
+
+// юзер дао стал репозиторием дао слой это репозиторий сервисный слой -
+//

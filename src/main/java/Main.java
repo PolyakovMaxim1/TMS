@@ -1,5 +1,6 @@
-import services.*;
-import models.*;
+import netCracker.tms.services.*;
+import netCracker.tms.models.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args){
@@ -20,7 +21,12 @@ public class Main {
                 role2);
         service.saveUser(userone);
         service.saveUser(usertwo);
-        System.out.println(userone);
-        System.out.println(usertwo);
+        List<User> users = new ArrayList<>();
+        Collections.addAll(users, userone, usertwo);
+        users.stream().forEach(System.out::println);
+
+        System.out.println("-----------------");
+        System.out.println(service.findUser(1));
+
     }
 }

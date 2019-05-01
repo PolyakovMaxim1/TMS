@@ -1,7 +1,7 @@
-package services;
+package netCracker.tms.services;
 
-import dao.*;
-import models.*;
+import netCracker.tms.dao.*;
+import netCracker.tms.models.*;
 
 public class RoleService {
 

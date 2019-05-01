@@ -1,4 +1,4 @@
-package models;
+package netCracker.tms.models;
 
 import javax.persistence.*;
 import java.sql.Date;

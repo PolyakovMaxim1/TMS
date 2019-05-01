@@ -1,8 +1,7 @@
-package models;
+package netCracker.tms.models;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.*;
 
 @Entity
 @Table (name = "ticket_answer")

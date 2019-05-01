@@ -1,19 +1,23 @@
-package models;
-
+package netCracker.tms.models;
 import javax.persistence.*;
 
 @Entity
-@Table (name = "ticket_status")
-public class TicketStatus {
+@Table (name = "role")
+public class Role {
+
     @Id
-    @Column (name = "id_status_name")
+    @Column (name = "role_id")
     private long id;
 
-    @Column (name = "ticket_status_name")
+    @Column (name = "role_name")
     private String name;
 
-    public TicketStatus(){
+    public Role(){
 
+    }
+    public Role(long id, String name){
+        this.id = id;
+        this.name = name;
     }
 
     public long getId() {
@@ -34,7 +38,7 @@ public class TicketStatus {
 
     @Override
     public String toString() {
-        return "TicketStatus{" +
+        return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
