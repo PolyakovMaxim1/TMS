@@ -1,43 +1,53 @@
-package netCracker.tms.dao;
+package netCracker.tms.dao.withoutRep.implementsDao;
 
-import netCracker.tms.models.Role;
+import netCracker.tms.dao.withoutRep.interfaceDao.UserDaoInterface;
+import netCracker.tms.models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import netCracker.tms.utils.HibernateSessionFactoryUtil;
+import java.util.*;
 
-public class RoleDaoImplements implements RoleDaoInterface {
+public class UserDaoImplements implements UserDaoInterface {
 
-    public Role findById(long id) {
+    public User findById(long id) {
         return HibernateSessionFactoryUtil
                 .getSessionFactory()
                 .openSession()
-                .get(Role.class, id);
+                .get(User.class, id);
     }
 
-    public void save(Role role) {
+    public List<User> allUsers() {
+        return HibernateSessionFactoryUtil
+                .getSessionFactory()
+                .openSession()
+                .createQuery("from netCracker.tms.models.User")
+                .list();
+    }
+
+    public void save(User user) {
         Session session = HibernateSessionFactoryUtil
                 .getSessionFactory()
                 .openSession();
         Transaction transaction = session.beginTransaction();
-        session.save(role);
+        session.save(user);
         transaction.commit();
         session.close();
     }
 
-    public void update(Role role) {
+    public void update(User user) {
         Session session = HibernateSessionFactoryUtil
                 .getSessionFactory()
                 .openSession();
         Transaction transaction = session.beginTransaction();
-        session.update(role);
+        session.update(user);
         transaction.commit();
         session.close();
     }
 
-    public void delete(Role role) {
+    public void delete(User user) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        session.delete(role);
+        session.delete(user);
         transaction.commit();
         session.close();
     }

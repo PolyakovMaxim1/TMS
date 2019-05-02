@@ -9,10 +9,9 @@
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/postgres</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
-    <property name="hibernate.hbm2ddl.auto">create</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
     <property name="show_sql">true</property>
-
-
+<!--    <property name="hibernate.jdbc.lob.non_contextual_creation">true</property>-->
 
     <!--        <mapping class= "netCracker.tms.models.Role"> </mapping>-->
     <!--        <mapping class= "netCracker.tms.models.User"> </mapping>-->

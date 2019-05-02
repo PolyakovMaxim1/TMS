@@ -1,4 +1,4 @@
-package netCracker.tms.dao;
+package netCracker.tms.dao.withoutRep.interfaceDao;
 
 import netCracker.tms.models.Role;
 
