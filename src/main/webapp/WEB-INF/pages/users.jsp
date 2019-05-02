@@ -21,7 +21,8 @@
         <th>password</th>
         <th>role</th>
         <th>email</th>
-        <th>countmadebug</th>
+        <th>count made bug</th>
+        <th>action</th>
     </tr>
     <c:forEach var="user" items="${userList}">
         <tr>
@@ -39,8 +40,9 @@
     </c:forEach>
 </table>
 
-<%--<h2>Add</h2>--%>
-<%--<c:url value="/add" var="add"/>--%>
-<%--<a href="${add}">Add new film</a>--%>
+<h2>Add</h2>
+<c:url value="/add" var="add"/>
+<a href="${add}">Add new user</a>
+
 </body>
 </html>

@@ -10,18 +10,23 @@ import java.util.*;
 public class UserDaoImplements implements UserDaoInterface {
 
     public User findById(long id) {
-        return HibernateSessionFactoryUtil
+        Session session = HibernateSessionFactoryUtil
                 .getSessionFactory()
-                .openSession()
-                .get(User.class, id);
+                .openSession();
+        User user = session.get(User.class, id);
+        session.close();
+        return user;
     }
 
     public List<User> allUsers() {
-        return HibernateSessionFactoryUtil
+        Session session = HibernateSessionFactoryUtil
                 .getSessionFactory()
-                .openSession()
-                .createQuery("from netCracker.tms.models.User")
-                .list();
+                .openSession();
+        List<User> listUser = session.createQuery("from netCracker.tms.models.User")
+                                    .list();
+        session.close();
+        return listUser;
+
     }
 
     public void save(User user) {

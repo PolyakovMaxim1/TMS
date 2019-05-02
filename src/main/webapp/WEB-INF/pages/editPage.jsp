@@ -1,16 +1,44 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: admin
-  Date: 2019-05-01
-  Time: 19:31
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Title</title>
+    <c:if test="${empty user.name}">
+        <title>Add</title>
+    </c:if>
+    <c:if test="${!empty user.name}">
+        <title>Edit</title>
+    </c:if>
 </head>
 <body>
-    Edit Page
+<c:if test="${empty user.name}">
+    <c:url value="/add" var="var"/>
+</c:if>
+<c:if test="${!empty user.name}">
+    <c:url value="/edit" var="var"/>
+</c:if>
+<form action="${var}" method="POST">
+    <c:if test="${!empty user.name}">
+        <input type="hidden" name="id" value="${film.id}">
+    </c:if>
+
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name">
+
+    <label for="password">Password</label>
+    <input type="text" name="password" id="password">
+
+    <label for="email">Email</label>
+    <input type="text" name="email" id="email">
+
+    <label for="countMakeBug">count Make Bug</label>
+    <input type="text" name="countMakeBug" id="countMakeBug">
+
+    <c:if test="${empty user.name}">
+        <input type="submit" value="Add new user">
+    </c:if>
+    <c:if test="${!empty user.name}">
+        <input type="submit" value="Edit user">
+    </c:if>
+</form>
 </body>
 </html>
