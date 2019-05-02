@@ -12,6 +12,11 @@
     <title>USERS</title>
 </head>
 <body>
+<div>
+    <form action="/logout" method="post">
+        <input type="submit" value="Sign out"/>
+    </form>
+</div>
 
 <h2>Users</h2>
 <table>

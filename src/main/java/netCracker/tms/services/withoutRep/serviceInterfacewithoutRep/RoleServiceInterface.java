@@ -4,11 +4,11 @@ import netCracker.tms.models.Role;
 
 public interface RoleServiceInterface {
 
-    public Role findUser(long id);
+    public Role findRole(long id);
 
-    public void saveUser(Role role);
+    public void saveRole(Role role);
 
-    public void deleteUser(Role role);
+    public void deleteRole(Role role);
 
-    public void updateUser(Role role);
+    public void updateRole(Role role);
 }

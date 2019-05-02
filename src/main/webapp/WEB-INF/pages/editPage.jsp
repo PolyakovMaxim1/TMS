@@ -21,17 +21,10 @@
         <input type="hidden" name="id" value="${film.id}">
     </c:if>
 
-    <label for="name">Name</label>
-    <input type="text" name="name" id="name">
-
-    <label for="password">Password</label>
-    <input type="text" name="password" id="password">
-
-    <label for="email">Email</label>
-    <input type="text" name="email" id="email">
-
-    <label for="countMakeBug">count Make Bug</label>
-    <input type="text" name="countMakeBug" id="countMakeBug">
+    <input type="text" name="name", placeholder="Введите имя"/>
+    <input type="text" name="password" , placeholder="Введите пароль">
+    <input type="text" name="email", placeholder="Введите email">
+    <input type="text" name="countMakeBug", placeholder="Введите кол-во ошибок">
 
     <c:if test="${empty user.name}">
         <input type="submit" value="Add new user">

@@ -7,6 +7,7 @@ public class Role {
 
     @Id
     @Column (name = "role_id")
+    @GeneratedValue (strategy = GenerationType.AUTO)
     private long id;
 
     @Column (name = "role_name")

@@ -13,19 +13,19 @@ public class RoleService implements RoleServiceInterface {
     public RoleService() {
     }
 
-    public Role findUser(long id) {
+    public Role findRole(long id) {
         return roleDao.findById(id);
     }
 
-    public void saveUser(Role role) {
+    public void saveRole(Role role) {
         roleDao.save(role);
     }
 
-    public void deleteUser(Role role) {
+    public void deleteRole(Role role) {
         roleDao.delete(role);
     }
 
-    public void updateUser(Role role) {
+    public void updateRole(Role role) {
         roleDao.update(role);
     }
 

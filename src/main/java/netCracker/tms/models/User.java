@@ -11,7 +11,8 @@ public class User {
 
     @Id
     @Column (name = "user_id")
-    @GenericGenerator (name = "hilogen", strategy = "increment")
+//    @GenericGenerator (name = "hilogen", strategy = "increment")
+    @GeneratedValue (strategy = GenerationType.AUTO)
     private long id;
 
     @Column (name = "user_name")
@@ -32,11 +33,12 @@ public class User {
     @OneToMany (mappedBy = "user")
     private Set<TicketAnswer> answers;
 
-    public User(String name, String password, String email, Role role){
+    public User(String name, String password, String email, Role role, int countMakeBug){
         this.name = name;
         this.password = password;
         this.email = email;
         this.role = role;
+        this.countMakeBug = countMakeBug;
     }
     public User(long id, String name, String password, String email, Role role){
         this.id = id;
