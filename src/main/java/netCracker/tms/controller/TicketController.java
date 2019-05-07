@@ -62,7 +62,7 @@ public class TicketController {
         ticketService.insertTicket(ticket);
         return modelAndView;
     }
-
+    //
     @GetMapping(value = "/deleteTicket/{id}")
     public ModelAndView deleteTicket(@PathVariable("id") int id) {
         Ticket ticket = ticketService.findTicketById(id);
