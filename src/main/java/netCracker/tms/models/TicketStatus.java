@@ -2,41 +2,20 @@ package netCracker.tms.models;
 
 import javax.persistence.*;
 
-@Entity
-@Table (name = "ticket_status")
-public class TicketStatus {
-    @Id
-    @Column (name = "id_status_name")
-    private long id;
+public enum TicketStatus {
+    NEW("new"),
+    OPEN("open"),
+    ON_HOLD("on hold"),
+    SOLVED("solved"),
+    CLOSED("closed");
 
-    @Column (name = "ticket_status_name")
-    private String name;
-
-    public TicketStatus(){
-
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    String name;
+    TicketStatus(String name){
         this.name = name;
     }
 
     @Override
-    public String toString() {
-        return "TicketStatus{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public String toString(){
+        return name();
     }
 }

@@ -14,25 +14,27 @@ public class Ticket {
 
     private String description;
 
-    @OneToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "status_id")
+    @Column (name = "status_id")
+    @Enumerated (EnumType.ORDINAL)
     private TicketStatus status;
+
+    @Column (name = "priority_id")
+    @Enumerated (EnumType.ORDINAL)
+    private TicketPriority priority;
 
     @OneToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "category_id")
     private TicketCategory category;
 
-    @OneToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "priority_id")
-    private TicketPriority priority;
+    // поднытый кем-то
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn (name = "raised_by_id")
+    private User raisedBy;
 
+    // ответственный за тикет, за его решение
     @OneToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "author_id")
-    private User author;
-
-    @OneToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "responsible_id")
-    private User responsible;
+    @JoinColumn (name = "assigned_to_id")
+    private User assignedTo;
 
     @Column (name = "date_of_discovery")
     private Date dateDiscovery;
@@ -82,14 +84,6 @@ public class Ticket {
         this.status = status;
     }
 
-    public TicketCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(TicketCategory category) {
-        this.category = category;
-    }
-
     public TicketPriority getPriority() {
         return priority;
     }
@@ -98,20 +92,28 @@ public class Ticket {
         this.priority = priority;
     }
 
-    public User getAuthor() {
-        return author;
+    public TicketCategory getCategory() {
+        return category;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setCategory(TicketCategory category) {
+        this.category = category;
     }
 
-    public User getResponsible() {
-        return responsible;
+    public User getRaisedBy() {
+        return raisedBy;
     }
 
-    public void setResponsible(User responsible) {
-        this.responsible = responsible;
+    public void setRaisedBy(User raisedBy) {
+        this.raisedBy = raisedBy;
+    }
+
+    public User getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(User assignedTo) {
+        this.assignedTo = assignedTo;
     }
 
     public Date getDateDiscovery() {
@@ -146,20 +148,20 @@ public class Ticket {
         this.detectionProblemDescription = detectionProblemDescription;
     }
 
-    public Set<TicketAnswer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(Set<TicketAnswer> answers) {
-        this.answers = answers;
-    }
-
     public Object getObject() {
         return object;
     }
 
     public void setObject(Object object) {
         this.object = object;
+    }
+
+    public Set<TicketAnswer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<TicketAnswer> answers) {
+        this.answers = answers;
     }
 
     @Override
@@ -170,8 +172,8 @@ public class Ticket {
                 ", status=" + status +
                 ", category=" + category +
                 ", priority=" + priority +
-                ", author=" + author +
-                ", responsible=" + responsible +
+                ", raisedBy=" + raisedBy +
+                ", assignedTo=" + assignedTo +
                 ", dateDiscovery=" + dateDiscovery +
                 ", discoveryProductVersion='" + discoveryProductVersion + '\'' +
                 ", fixedProductVersion='" + fixedProductVersion + '\'' +

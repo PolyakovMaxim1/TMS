@@ -18,6 +18,9 @@ public class User {
     @Column (name = "user_name")
     private String name;
 
+    @Column (name = "user_login")
+    private String login;
+
     @Column (name = "user_password")
     private String password;
 
@@ -26,18 +29,21 @@ public class User {
 
     private String email;
 
-    @OneToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "role_id")
-    private Role role;
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.LAZY)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.ORDINAL)
+    private Set<Role> roles;
 
     @OneToMany (mappedBy = "user")
     private Set<TicketAnswer> answers;
 
-    public User(String name, String password, String email, Role role, int countMakeBug){
+    @OneToMany (mappedBy = "raisedBy")
+    private Set<Ticket> tickets;
+
+    public User(String name, String password, String email, int countMakeBug){
         this.name = name;
         this.password = password;
         this.email = email;
-        this.role = role;
         this.countMakeBug = countMakeBug;
     }
     public User(long id, String name, String password, String email, Role role){
@@ -45,7 +51,6 @@ public class User {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.role = role;
     }
     public User(){
 
@@ -65,6 +70,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public Set<TicketAnswer> getAnswers() {
@@ -99,12 +112,20 @@ public class User {
         this.email = email;
     }
 
-    public Role getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     @Override
@@ -112,10 +133,10 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", countMakeBug=" + countMakeBug +
                 ", email='" + email + '\'' +
-                ", role=" + role +
                 '}';
     }
 }
