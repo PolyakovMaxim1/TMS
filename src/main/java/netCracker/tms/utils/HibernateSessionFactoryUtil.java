@@ -17,7 +17,7 @@ public class HibernateSessionFactoryUtil {
                 Configuration configuration = new Configuration().configure();
                 configuration.addAnnotatedClass(User.class);
                 configuration.addAnnotatedClass(Role.class);
-                configuration.addAnnotatedClass(StatusInfo.class);
+                configuration.addAnnotatedClass(UserStatusInfo.class);
                 configuration.addAnnotatedClass(UserStatus.class);
                 configuration.addAnnotatedClass(Object.class);
                 configuration.addAnnotatedClass(Ticket.class);

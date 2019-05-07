@@ -3,8 +3,8 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table (name = "Status_info")
-public class StatusInfo {
+@Table (name = "user_status_info")
+public class UserStatusInfo {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column (name = "id_status_info")
@@ -14,8 +14,8 @@ public class StatusInfo {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_status_id")
+    @Column(name = "user_status_id")
+    @Enumerated(EnumType.ORDINAL)
     private UserStatus userStatus;
 
     @Column(name = "loged_in")
@@ -24,7 +24,7 @@ public class StatusInfo {
     @Column(name = "loged_out")
     private Date lodedOut;
 
-    public StatusInfo(){
+    public UserStatusInfo(){
 
     }
 

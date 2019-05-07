@@ -22,8 +22,8 @@ public class Ticket {
     @Enumerated (EnumType.ORDINAL)
     private TicketPriority priority;
 
-    @OneToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "category_id")
+    @Column (name = "category_id")
+    @Enumerated (EnumType.ORDINAL)
     private TicketCategory category;
 
     // поднытый кем-то

@@ -1,16 +1,16 @@
 package netCracker.tms.controller;
 
-import netCracker.tms.models.Role;
-import netCracker.tms.models.Ticket;
-import netCracker.tms.models.User;
-import netCracker.tms.services.TicketService;
-import netCracker.tms.services.withoutRep.serviceImplementswithoutRep.*;
-import netCracker.tms.services.withoutRep.serviceInterfacewithoutRep.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.*;
+import netCracker.tms.models.*;
+import netCracker.tms.services.withoutRep.serviceImplementswithoutRep.UserService;
+import netCracker.tms.services.withoutRep.serviceInterfacewithoutRep.UserServiceInterface;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import java.util.*;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class GreetingController {
@@ -83,7 +83,7 @@ public class GreetingController {
                                 @RequestParam String password,
                                 @RequestParam String email,
                                 @RequestParam int countMakeBug,
-                                Map<String, Object> model) {
+                                Map<String, java.lang.Object> model) {
         Set<Role> roles = new HashSet<>();
         roles.add(Role.USER);
         User user = new User(name, password, email, countMakeBug);

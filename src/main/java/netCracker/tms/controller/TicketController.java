@@ -1,10 +1,8 @@
 package netCracker.tms.controller;
 
 
-import netCracker.tms.models.Role;
 import netCracker.tms.models.Ticket;
-import netCracker.tms.models.User;
-import netCracker.tms.services.TicketService;
+import netCracker.tms.services.Implements.TicketService;
 import netCracker.tms.services.withoutRep.serviceImplementswithoutRep.*;
 import netCracker.tms.services.withoutRep.serviceInterfacewithoutRep.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,7 @@ public class TicketController {
 
     @GetMapping (value = "/ticket")
     public ModelAndView allTickets(){
-        List<Ticket> tickets = ticketService.findAll();
+        List<Ticket> tickets = ticketService.findAllTickets();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("tickets");
         modelAndView.addObject("ticketList", tickets);
