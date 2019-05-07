@@ -18,7 +18,7 @@
 </c:if>
 <form action="${var}" method="POST">
     <c:if test="${!empty user.name}">
-        <input type="hidden" name="id" value="${film.id}">
+        <input type="hidden" name="id" value="${user.id}">
     </c:if>
 
     <input type="text" name="name", placeholder="Введите имя"/>

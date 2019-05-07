@@ -9,31 +9,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Controller
 public class GreetingController {
-    private UserServiceInterface userService = new UserService();
-//    private RoleServiceInterface roleService = new RoleService();
 
-//    @Autowired
-//    private TicketService ticketService;
-//
-//    @GetMapping (value = "/ticket")
-//    public ModelAndView allTickets(){
-//        List<Ticket> tickets = ticketService.findAll();
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("tickets");
-//        modelAndView.addObject("ticketList", tickets);
-//        return modelAndView;
-//    }
-//    @GetMapping (value = "/")
-//    public ModelAndView greeting(){
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("greetings");
-//        return modelAndView;
-//    }
+    private UserServiceInterface userService = new UserService();
 
     @GetMapping (value = "/")
     public ModelAndView allUsers(){
@@ -52,13 +33,11 @@ public class GreetingController {
         return modelAndView;
     }
 
-
-
     @GetMapping (value = "/edit/{id}")
-    public ModelAndView editPage(@PathVariable("id") long id){
+    public ModelAndView editPageUser(@PathVariable("id") long id){
         User user = userService.findUser(id);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("editPage");
+        modelAndView.setViewName("editPageUser");
         modelAndView.addObject("user", user);
         return modelAndView;
     }
@@ -72,9 +51,9 @@ public class GreetingController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public ModelAndView addPage() {
+    public ModelAndView addPageUser() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("editPage");
+        modelAndView.setViewName("editPageUser");
         return modelAndView;
     }
 
@@ -82,12 +61,12 @@ public class GreetingController {
     public ModelAndView addUser(@RequestParam String name,
                                 @RequestParam String password,
                                 @RequestParam String email,
-                                @RequestParam int countMakeBug,
-                                Map<String, java.lang.Object> model) {
+                                @RequestParam int countMakeBug) {
         Set<Role> roles = new HashSet<>();
         roles.add(Role.USER);
         User user = new User(name, password, email, countMakeBug);
         user.setRoles(roles);
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/");
         userService.saveUser(user);
@@ -95,7 +74,7 @@ public class GreetingController {
     }
 
     @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
-    public ModelAndView deleteFilm(@PathVariable("id") int id) {
+    public ModelAndView deleteUser(@PathVariable("id") int id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/");
         User user = userService.findUser(id);

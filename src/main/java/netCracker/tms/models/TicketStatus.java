@@ -3,11 +3,11 @@ package netCracker.tms.models;
 import javax.persistence.*;
 
 public enum TicketStatus {
-    NEW("new"),
-    OPEN("open"),
-    ON_HOLD("on hold"),
-    SOLVED("solved"),
-    CLOSED("closed");
+    NEW("New"),
+    OPEN("Open"),
+    ON_HOLD("On hold"),
+    SOLVED("Solved"),
+    CLOSED("Closed");
 
     String name;
     TicketStatus(String name){
@@ -16,6 +16,6 @@ public enum TicketStatus {
 
     @Override
     public String toString(){
-        return name();
+        return name;
     }
 }

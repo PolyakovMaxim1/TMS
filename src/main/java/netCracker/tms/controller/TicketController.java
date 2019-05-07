@@ -1,15 +1,17 @@
 package netCracker.tms.controller;
 
-
 import netCracker.tms.models.Ticket;
+import netCracker.tms.models.TicketCategory;
+import netCracker.tms.models.TicketPriority;
+import netCracker.tms.models.TicketStatus;
 import netCracker.tms.services.Implements.TicketService;
-import netCracker.tms.services.withoutRep.serviceImplementswithoutRep.*;
-import netCracker.tms.services.withoutRep.serviceInterfacewithoutRep.*;
+import netCracker.tms.services.Implements.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.*;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import java.util.*;
+
+import java.util.List;
 
 @Controller
 public class TicketController {
@@ -17,7 +19,8 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
-    private UserServiceInterface userService = new UserService();
+    @Autowired
+    private UserService userService;
 
     @GetMapping (value = "/ticket")
     public ModelAndView allTickets(){
@@ -28,30 +31,46 @@ public class TicketController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/addTicket", method = RequestMethod.GET)
+    public ModelAndView addPageTicket() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("editPageTicket");
+        return modelAndView;
+    }
 
+    @RequestMapping(value = "/addTicket", method = RequestMethod.POST)
+    public ModelAndView addTicket(@RequestParam String description,
+                                  @RequestParam String descriptionDetectionProblem,
+                                  @RequestParam String productVersionDiscovery,
+                                  @RequestParam String productVersionFixed,
+                                  @RequestParam int priorityId,
+                                  @RequestParam int statusId,
+                                  @RequestParam int categoryId,
+                                  @RequestParam int raisedById,
+                                  @RequestParam int assignedToId) {
+        Ticket ticket = new Ticket();
+        ticket.setDescription(description);
+        ticket.setDetectionProblemDescription(descriptionDetectionProblem);
+        ticket.setPriority(TicketPriority.values()[priorityId]);
+        ticket.setStatus(TicketStatus.values()[statusId]);
+        ticket.setCategory(TicketCategory.values()[categoryId]);
+        ticket.setRaisedBy(userService.findUserById(raisedById));
+        ticket.setAssignedTo(userService.findUserById(assignedToId));
 
-//    @RequestMapping(value = "/addTicket", method = RequestMethod.GET)
-//    public ModelAndView addPage() {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("editPageTicket");
-//        return modelAndView;
-//    }
-//
-//    @RequestMapping(value = "/addTicket", method = RequestMethod.POST)
-//    public ModelAndView addUser(@RequestParam String name,
-//                                @RequestParam String password,
-//                                @RequestParam String email,
-//                                @RequestParam int countMakeBug,
-//                                Map<String, Object> model) {
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(Role.USER);
-//        User user = new User(name, password, email, countMakeBug);
-//        user.setRoles(roles);
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("redirect:/");
-//        userService.saveUser(user);
-//        return modelAndView;
-//    }
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/ticket");
+        ticketService.insertTicket(ticket);
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/deleteTicket/{id}")
+    public ModelAndView deleteTicket(@PathVariable("id") int id) {
+        Ticket ticket = ticketService.findTicketById(id);
+        ticketService.deleteTicket(ticket);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/ticket");
+        return modelAndView;
+    }
 
 }
 

@@ -3,8 +3,8 @@ package netCracker.tms.models;
 import javax.persistence.*;
 
 public enum UserStatus {
-    ONLINE("online"),
-    OFFLINE("offline");
+    ONLINE("Online"),
+    OFFLINE("Offline");
 
     String name;
     UserStatus(String name){
@@ -13,6 +13,6 @@ public enum UserStatus {
 
     @Override
     public String toString(){
-        return name();
+        return name;
     }
 }

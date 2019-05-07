@@ -30,7 +30,6 @@ public class TicketService implements TicketServiceInterface {
 
     @Override
     public void updateTicket(Ticket ticket) {
-
     }
 
     @Override

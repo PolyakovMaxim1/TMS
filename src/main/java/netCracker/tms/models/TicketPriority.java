@@ -3,12 +3,12 @@ package netCracker.tms.models;
 import javax.persistence.*;
 
 public enum TicketPriority {
-    LOW("low"),
-    NORMAL("normal"),
-    MEDIUM("medium"),
-    HIGH("high"),
-    CRITICAL("critical"),
-    IN_PROGRESS("in progress");
+    LOW("Low"),
+    NORMAL("Normal"),
+    MEDIUM("Medium"),
+    HIGH("High"),
+    CRITICAL("Critical"),
+    IN_PROGRESS("In progress");
 
     String name;
     TicketPriority(String name){
@@ -17,6 +17,6 @@ public enum TicketPriority {
 
     @Override
     public String toString(){
-        return name();
+        return name;
     }
 }

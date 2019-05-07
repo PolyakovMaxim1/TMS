@@ -29,28 +29,35 @@
 <table>
     <tr>
         <th>id</th>
-        <th>author</th>
+        <th>raised by</th>
+        <th>assigned to</th>
         <th>category</th>
-        <%--        <th>role</th>--%>
+        <th>status</th>
+        <th>priority</th>
         <th>description</th>
+        <th>description detection problem</th>
     </tr>
     <c:forEach var="ticket" items="${ticketList}">
         <tr>
             <td>${ticket.id}</td>
-            <td>${ticket.author}</td>
-            <td>${ticket.category}</td>
+            <td>${ticket.raisedBy.name}</td>
+            <td>${ticket.assignedTo.name}</td>
+            <td>${ticket.category.toString()}</td>
+            <td>${ticket.status.toString()}</td>
+            <td>${ticket.priority.toString()}</td>
             <td>${ticket.description}</td>
+            <td>${ticket.detectionProblemDescription}</td>
             <td>
                 <a href="/edit/${ticket.id}">edit</a>
-                <a href="/delete/${ticket.id}">delete</a>
+                <a href="/deleteTicket/${ticket.id}">delete</a>
             </td>
         </tr>
     </c:forEach>
 </table>
 
 <h2>Add</h2>
-<c:url value="/add" var="add"/>
-<a href="${add}">Add new user</a>
+<c:url value="/addTicket" var="add"/>
+<a href="${add}">Add new ticket</a>
 
 </body>
 </html>

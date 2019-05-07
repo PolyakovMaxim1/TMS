@@ -3,7 +3,7 @@ package netCracker.tms.models;
 import javax.persistence.*;
 
 public enum Role {
-    USER("user");
+    USER("User");
 
     String name;
     Role(String name){
@@ -12,7 +12,7 @@ public enum Role {
 
     @Override
     public String toString(){
-        return name();
+        return name;
     }
 
 }
