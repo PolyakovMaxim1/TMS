@@ -1,11 +1,11 @@
 package netCracker.tms.models;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -170,6 +170,7 @@ public class User implements UserDetails {
                 '}';
     }
 
+    @Override
     public String getPassword() {
         return password;
     }

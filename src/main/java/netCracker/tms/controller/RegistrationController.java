@@ -5,7 +5,6 @@ import netCracker.tms.models.Role;
 import netCracker.tms.models.User;
 import netCracker.tms.services.Implements.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

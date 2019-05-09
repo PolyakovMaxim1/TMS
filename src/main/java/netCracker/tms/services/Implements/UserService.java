@@ -4,8 +4,6 @@ import netCracker.tms.models.User;
 import netCracker.tms.repositories.UserRep;
 import netCracker.tms.services.Intefraces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -52,7 +50,9 @@ public class UserService implements UserServiceInterface, UserDetailsService {
         User userFindByLogin = userRep.findUserByLogin(login);
         //Остальные поиски
         if(userFindByLogin != null)
+        {
             return userFindByLogin;
+        }
         //Остальные проверки
         return null;
     }
