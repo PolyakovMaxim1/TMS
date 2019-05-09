@@ -22,9 +22,11 @@
 <table>
     <tr>
         <th>id</th>
-        <th>name</th>
+        <th>First name</th>
+        <th>Second name</th>
+        <th>login</th>
         <th>password</th>
-<%--        <th>role</th>--%>
+        <th>Gender</th>
         <th>email</th>
         <th>count made bug</th>
         <th>action</th>
@@ -32,9 +34,11 @@
     <c:forEach var="user" items="${userList}">
         <tr>
             <td>${user.id}</td>
-            <td>${user.name}</td>
+            <td>${user.firstName}</td>
+            <td>${user.secondName}</td>
+            <td>${user.login}</td>
             <td>${user.password}</td>
-<%--            <td>${user.role}</td>--%>
+            <td>${user.gender.toString()}</td>
             <td>${user.email}</td>
             <td>${user.countMakeBug}</td>
             <td>

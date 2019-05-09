@@ -7,6 +7,8 @@ public interface UserServiceInterface {
 
     public User findUserById(long id);
 
+    public User findUserByLogin(String name);
+
     public void insertUser(User user);
 
     public void deleteUser(User user);

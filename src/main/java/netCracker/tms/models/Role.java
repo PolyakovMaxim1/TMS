@@ -1,8 +1,8 @@
 package netCracker.tms.models;
 
-import javax.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
 
-public enum Role {
+public enum Role implements GrantedAuthority {
     USER("User");
 
     String name;
@@ -15,4 +15,8 @@ public enum Role {
         return name;
     }
 
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }

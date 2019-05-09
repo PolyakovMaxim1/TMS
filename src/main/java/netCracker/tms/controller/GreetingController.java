@@ -3,6 +3,7 @@ package netCracker.tms.controller;
 import netCracker.tms.models.*;
 import netCracker.tms.services.withoutRep.serviceImplementswithoutRep.UserService;
 import netCracker.tms.services.withoutRep.serviceInterfacewithoutRep.UserServiceInterface;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +16,8 @@ import java.util.Set;
 public class GreetingController {
 
     private UserServiceInterface userService = new UserService();
+//    @Autowired
+//    UserService userService;
 
     @GetMapping (value = "/")
     public ModelAndView allUsers(){
@@ -22,14 +25,6 @@ public class GreetingController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("users");
         modelAndView.addObject("userList", users);
-        return modelAndView;
-    }
-
-    @GetMapping (value = "/test")
-    public ModelAndView test(){
-        List<User> users = userService.getAllUsers();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("index");
         return modelAndView;
     }
 
@@ -58,15 +53,17 @@ public class GreetingController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ModelAndView addUser(@RequestParam String name,
+    public ModelAndView addUser(@RequestParam String firstName,
+                                @RequestParam String secondName,
+                                @RequestParam String login,
                                 @RequestParam String password,
+                                @RequestParam int gender,
                                 @RequestParam String email,
                                 @RequestParam int countMakeBug) {
         Set<Role> roles = new HashSet<>();
         roles.add(Role.USER);
-        User user = new User(name, password, email, countMakeBug);
+        User user = new User(firstName, secondName, login, password, Gender.values()[gender], email, countMakeBug);
         user.setRoles(roles);
-
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/");
         userService.saveUser(user);

@@ -16,18 +16,18 @@ public class Main {
 
 //        roleService.saveRole(Role.USER);
 
-        User userone = new User("София",
-                "yksd",
-                "@mail.ru",4);
-        User usertwo = new User("Маким",
-                "lksfj",
-                "@bk.ru", 3);
-        Set<Role> roles = new HashSet<>();
-        roles.add(Role.USER);
-        userone.setRoles(roles);
-        usertwo.setRoles(roles);
-        service.saveUser(userone);
-        service.saveUser(usertwo);
+//        User userone = new User("София",
+//                "yksd",
+//                "@mail.ru",4);
+//        User usertwo = new User("Маким",
+//                "lksfj",
+//                "@bk.ru", 3);
+//        Set<Role> roles = new HashSet<>();
+//        roles.add(Role.USER);
+//        userone.setRoles(roles);
+//        usertwo.setRoles(roles);
+//        service.saveUser(userone);
+//        service.saveUser(usertwo);
 
 
         System.out.println("-----------------");

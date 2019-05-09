@@ -1,11 +1,11 @@
 package netCracker.tms.models;
 
-public enum UserStatus {
-    ONLINE("Online"),
-    OFFLINE("Offline");
+public enum Gender {
+    MALE("Male"),
+    FEMALE("Female");
 
     String name;
-    UserStatus(String name){
+    Gender(String name){
         this.name = name;
     }
 
