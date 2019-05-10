@@ -13,7 +13,7 @@
     <property name="show_sql">true</property>
 
     <!--    <property name="hibernate.jdbc.lob.non_contextual_creation">true</property>-->
-    <!--        <mapping class= "netCracker.tms.models.Role"> </mapping>-->
+    <!--        <mapping class= "netCracker.tms.models.Enums.Role"> </mapping>-->
     <!--        <mapping class= "netCracker.tms.models.User"> </mapping>-->
 
 </session-factory>

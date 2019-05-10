@@ -1,4 +1,6 @@
 package netCracker.tms.models;
+import netCracker.tms.models.Enums.UserStatus;
+
 import javax.persistence.*;
 import java.sql.Date;
 

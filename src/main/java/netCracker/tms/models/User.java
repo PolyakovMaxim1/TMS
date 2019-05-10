@@ -1,5 +1,7 @@
 package netCracker.tms.models;
 
+import netCracker.tms.models.Enums.Gender;
+import netCracker.tms.models.Enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

@@ -1,4 +1,4 @@
-package netCracker.tms.models;
+package netCracker.tms.models.Enums;
 
 public enum Gender {
     MALE("Male"),

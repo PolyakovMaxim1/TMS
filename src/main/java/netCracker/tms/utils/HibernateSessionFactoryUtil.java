@@ -1,6 +1,7 @@
 package netCracker.tms.utils;
 
 import netCracker.tms.models.*;
+import netCracker.tms.models.Enums.*;
 import netCracker.tms.models.Object;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

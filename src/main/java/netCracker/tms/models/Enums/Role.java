@@ -1,9 +1,12 @@
-package netCracker.tms.models;
+package netCracker.tms.models.Enums;
 
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLBoundOperation;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    USER("User");
+    USER("User"),
+    ADMIN("Admin"),
+    ANONYMOUS("Anonymous");
 
     String name;
     Role(String name){

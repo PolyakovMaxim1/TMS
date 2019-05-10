@@ -1,9 +1,10 @@
 package netCracker.tms.controller;
 
 import netCracker.tms.models.*;
+import netCracker.tms.models.Enums.Gender;
+import netCracker.tms.models.Enums.Role;
 import netCracker.tms.services.withoutRep.serviceImplementswithoutRep.UserService;
 import netCracker.tms.services.withoutRep.serviceInterfacewithoutRep.UserServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;

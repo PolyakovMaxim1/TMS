@@ -4,12 +4,14 @@ import netCracker.tms.models.User;
 import netCracker.tms.repositories.UserRep;
 import netCracker.tms.services.Intefraces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserService implements UserServiceInterface, UserDetailsService {
@@ -41,19 +43,43 @@ public class UserService implements UserServiceInterface, UserDetailsService {
     }
 
     @Override
+    public User findUserByEmail(String email) {
+        return userRep.findUserByEmail(email);
+    }
+
+    @Override
     public List<User> findAllUsers() {
         return userRep.findAll();
     }
 
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User userFindByLogin = userRep.findUserByLogin(login);
-        //Остальные поиски
-        if(userFindByLogin != null)
-        {
-            return userFindByLogin;
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return username.contains("@") ? userRep.findUserByEmail(username) : userRep.findUserByLogin(username);
+    }
+
+    @Override
+    public final boolean currentUserHasRole(String role) {
+        boolean hasRole = false;
+        UserDetails userDetails = getUserDetails();
+        if (userDetails != null) {
+            for(GrantedAuthority grantedAuthority : userDetails.getAuthorities()){
+                hasRole = grantedAuthority.getAuthority().equals(role);
+                if(hasRole)
+                    break;
+            }
         }
-        //Остальные проверки
-        return null;
+        return hasRole;
+    }
+    /**
+     * Get info about currently logged in user
+     * @return UserDetails if found in the context, null otherwise
+     */
+    public UserDetails getUserDetails() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = null;
+        if (principal instanceof UserDetails) {
+            userDetails = (UserDetails) principal;
+        }
+        return userDetails;
     }
 }

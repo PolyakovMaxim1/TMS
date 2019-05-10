@@ -1,5 +1,9 @@
 package netCracker.tms.models;
 
+import netCracker.tms.models.Enums.TicketCategory;
+import netCracker.tms.models.Enums.TicketPriority;
+import netCracker.tms.models.Enums.TicketStatus;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.*;

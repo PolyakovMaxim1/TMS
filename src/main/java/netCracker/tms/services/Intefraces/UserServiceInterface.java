@@ -1,19 +1,24 @@
 package netCracker.tms.services.Intefraces;
 
 import netCracker.tms.models.User;
+
 import java.util.*;
 
 public interface UserServiceInterface {
 
-    public User findUserById(long id);
+    User findUserById(long id);
 
-    public User findUserByLogin(String name);
+    User findUserByLogin(String name);
 
-    public void insertUser(User user);
+    User findUserByEmail(String email);
 
-    public void deleteUser(User user);
+    void insertUser(User user);
 
-    public void updateUser(User user);
+    void deleteUser(User user);
 
-    public List<User> findAllUsers();
+    void updateUser(User user);
+
+    List<User> findAllUsers();
+
+    boolean currentUserHasRole(String role);
 }

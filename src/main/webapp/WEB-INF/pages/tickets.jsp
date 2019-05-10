@@ -36,21 +36,27 @@
         <th>priority</th>
         <th>description</th>
         <th>description detection problem</th>
+        <c:if test="${isAdmin}">
+            <th>action</th>
+        </c:if>
     </tr>
     <c:forEach var="ticket" items="${ticketList}">
         <tr>
             <td>${ticket.id}</td>
-            <td>${ticket.raisedBy.name}</td>
-            <td>${ticket.assignedTo.name}</td>
+            <td>${ticket.raisedBy.firstName.toString()}</td>
+            <td>${ticket.assignedTo.firstName.toString()}</td>
             <td>${ticket.category.toString()}</td>
             <td>${ticket.status.toString()}</td>
             <td>${ticket.priority.toString()}</td>
             <td>${ticket.description}</td>
             <td>${ticket.detectionProblemDescription}</td>
-            <td>
-                <a href="/edit/${ticket.id}">edit</a>
-                <a href="/deleteTicket/${ticket.id}">delete</a>
-            </td>
+
+            <c:if test="${isAdmin}">
+                <td>
+                    <a href="/edit/${ticket.id}">edit</a>
+                    <a href="/deleteTicket/${ticket.id}">delete</a>
+                </td>
+            </c:if>
         </tr>
     </c:forEach>
 </table>

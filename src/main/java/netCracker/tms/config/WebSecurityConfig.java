@@ -19,28 +19,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthProvider authProvider;
 
     @Bean
-    PasswordEncoder passwordEncoder()
-    {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder;
+    PasswordEncoder bPasswordEncoder() {
+        PasswordEncoder bPasswordEncoder = new BCryptPasswordEncoder();
+        return bPasswordEncoder;
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-    {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider);
+        auth.inMemoryAuthentication().passwordEncoder(bPasswordEncoder())
+                    .withUser("Admin")
+                    .password(bPasswordEncoder().encode("admin"))
+                    .roles("ADMIN")
+                .and()
+                    .withUser("User")
+                    .password(bPasswordEncoder().encode("user"))
+                    .roles("USER");
+
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception
-    {
-        http    .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/", "/login", "/registration").permitAll()
-                .anyRequest().authenticated()
-                .and().formLogin().loginPage("/login")
+    protected void configure(HttpSecurity http) throws Exception {
+        http        .csrf().disable()
+                    .authorizeRequests()
+                    .antMatchers("/login", "/registration").permitAll()
+                    .anyRequest().authenticated()
+                .and()
+                    .formLogin().loginPage("/login")
                     .defaultSuccessUrl("/ticket").failureUrl("/login?error").permitAll()
-                .and().logout().logoutSuccessUrl("/").permitAll();
+                .and()
+                    .logout().logoutSuccessUrl("/").permitAll();
     }
-
 }

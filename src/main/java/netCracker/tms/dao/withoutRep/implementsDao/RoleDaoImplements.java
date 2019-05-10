@@ -1,7 +1,7 @@
 package netCracker.tms.dao.withoutRep.implementsDao;
 
 import netCracker.tms.dao.withoutRep.interfaceDao.RoleDaoInterface;
-import netCracker.tms.models.Role;
+import netCracker.tms.models.Enums.Role;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import netCracker.tms.utils.HibernateSessionFactoryUtil;

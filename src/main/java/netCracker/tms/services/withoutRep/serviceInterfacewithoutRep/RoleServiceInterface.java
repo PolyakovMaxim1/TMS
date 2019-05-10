@@ -1,6 +1,6 @@
 package netCracker.tms.services.withoutRep.serviceInterfacewithoutRep;
 
-import netCracker.tms.models.Role;
+import netCracker.tms.models.Enums.Role;
 
 public interface RoleServiceInterface {
 

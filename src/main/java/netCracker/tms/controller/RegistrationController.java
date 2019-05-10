@@ -1,7 +1,7 @@
 package netCracker.tms.controller;
 
-import netCracker.tms.models.Gender;
-import netCracker.tms.models.Role;
+import netCracker.tms.models.Enums.Gender;
+import netCracker.tms.models.Enums.Role;
 import netCracker.tms.models.User;
 import netCracker.tms.services.Implements.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

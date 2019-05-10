@@ -2,9 +2,8 @@ package netCracker.tms.services.withoutRep.serviceImplementswithoutRep;
 
 import netCracker.tms.dao.withoutRep.implementsDao.RoleDaoImplements;
 import netCracker.tms.dao.withoutRep.interfaceDao.RoleDaoInterface;
-import netCracker.tms.models.*;
+import netCracker.tms.models.Enums.Role;
 import netCracker.tms.services.withoutRep.serviceInterfacewithoutRep.RoleServiceInterface;
-import org.springframework.stereotype.Service;
 
 public class RoleService implements RoleServiceInterface {
 

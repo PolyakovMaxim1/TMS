@@ -1,6 +1,6 @@
 package netCracker.tms.dao.withoutRep.interfaceDao;
 
-import netCracker.tms.models.Role;
+import netCracker.tms.models.Enums.Role;
 
 public interface RoleDaoInterface {
 

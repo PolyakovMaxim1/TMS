@@ -1,9 +1,9 @@
 package netCracker.tms.controller;
 
+import netCracker.tms.models.Enums.TicketCategory;
+import netCracker.tms.models.Enums.TicketPriority;
+import netCracker.tms.models.Enums.TicketStatus;
 import netCracker.tms.models.Ticket;
-import netCracker.tms.models.TicketCategory;
-import netCracker.tms.models.TicketPriority;
-import netCracker.tms.models.TicketStatus;
 import netCracker.tms.services.Implements.TicketService;
 import netCracker.tms.services.Implements.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,7 @@ public class TicketController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("tickets");
         modelAndView.addObject("ticketList", tickets);
+        modelAndView.addObject("isAdmin", userService.currentUserHasRole("ROLE_ADMIN"));
         return modelAndView;
     }
 
