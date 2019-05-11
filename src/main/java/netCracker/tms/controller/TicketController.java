@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class TicketController {
@@ -26,8 +27,9 @@ public class TicketController {
     private UserService userService;
 
     @GetMapping (value = "/ticket")
-    public ModelAndView allTickets(){
+    public ModelAndView allTickets(@AuthenticationPrincipal User user){
         List<Ticket> tickets = ticketService.findAllTickets();
+//        List<Ticket> tickets = user.getTickets().stream().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("tickets");
         modelAndView.addObject("ticketList", tickets);

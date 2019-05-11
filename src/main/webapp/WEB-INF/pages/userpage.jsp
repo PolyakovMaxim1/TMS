@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>My page</title>
@@ -56,7 +57,7 @@
 
 <h2>Add</h2>
 <c:url value="/addTicket" var="add"/>
-<a href="${add}">Add new ticket</a>
+<a href="/addTicket">Add new ticket</a>
 
 </body>
 </html>

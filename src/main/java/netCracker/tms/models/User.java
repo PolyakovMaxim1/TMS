@@ -48,7 +48,7 @@ public class User implements UserDetails {
     private Set<TicketAnswer> answers;
 
     @OneToMany (mappedBy = "raisedBy", fetch = FetchType.EAGER)
-    private List<Ticket> tickets;
+    private Set<Ticket> tickets;
 
     public User(String firstName, String secondName, String login, String password, Gender gender, String email, int countMakeBug) {
         this.firstName = firstName;
@@ -149,11 +149,11 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public List<Ticket> getTickets() {
+    public Set<Ticket> getTickets() {
         return tickets;
     }
 
-    public void setTickets(List<Ticket> tickets) {
+    public void setTickets(Set<Ticket> tickets) {
         this.tickets = tickets;
     }
 
