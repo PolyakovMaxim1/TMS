@@ -56,8 +56,8 @@
 </table>
 
 <h2>Add</h2>
-<c:url value="/addTicket" var="add"/>
-<a href="/addTicket">Add new ticket</a>
+<c:url value="/addTicket/${currentUser.id}" var="add"/>
+<a href="/addTicket/${currentUser.id}">Add new ticket</a>
 
 </body>
 </html>

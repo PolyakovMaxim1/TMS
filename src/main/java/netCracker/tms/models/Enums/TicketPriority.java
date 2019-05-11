@@ -7,8 +7,7 @@ public enum TicketPriority {
     NORMAL("Normal"),
     MEDIUM("Medium"),
     HIGH("High"),
-    CRITICAL("Critical"),
-    IN_PROGRESS("In progress");
+    CRITICAL("Critical");
 
     String name;
     TicketPriority(String name){

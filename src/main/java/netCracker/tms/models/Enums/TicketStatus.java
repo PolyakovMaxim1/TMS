@@ -7,7 +7,8 @@ public enum TicketStatus {
     OPEN("Open"),
     ON_HOLD("On hold"),
     SOLVED("Solved"),
-    CLOSED("Closed");
+    CLOSED("Closed"),
+    IN_PROGRESS("In progress");
 
     String name;
     TicketStatus(String name){
