@@ -15,6 +15,7 @@
     <c:url value="/registration" var="var"/>
 <form action="${var}" method="POST">
 
+    <p>${message}</p>
     <p><b>First Name</b></p>
     <p><input type = "text" name = "firstName"></p>
     <p><b>Second name</b></p>

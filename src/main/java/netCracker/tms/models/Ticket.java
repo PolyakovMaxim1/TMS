@@ -31,12 +31,12 @@ public class Ticket {
     private TicketCategory category;
 
     // поднытый кем-то
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn (name = "raised_by_id")
     private User raisedBy;
 
     // ответственный за тикет, за его решение
-    @OneToOne (fetch = FetchType.LAZY)
+    @OneToOne (fetch = FetchType.EAGER)
     @JoinColumn (name = "assigned_to_id")
     private User assignedTo;
 
@@ -52,7 +52,7 @@ public class Ticket {
     @Column (name = "description_detection_problem")
     private String detectionProblemDescription;
 
-    @OneToOne (fetch = FetchType.LAZY)
+    @OneToOne (fetch = FetchType.EAGER)
     @JoinColumn (name = "object_id")
     private Object object;
 

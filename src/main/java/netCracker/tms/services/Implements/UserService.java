@@ -1,5 +1,6 @@
 package netCracker.tms.services.Implements;
 
+import netCracker.tms.models.Enums.Role;
 import netCracker.tms.models.User;
 import netCracker.tms.repositories.UserRep;
 import netCracker.tms.services.Intefraces.UserServiceInterface;
@@ -58,12 +59,12 @@ public class UserService implements UserServiceInterface, UserDetailsService {
     }
 
     @Override
-    public final boolean currentUserHasRole(String role) {
+    public final boolean currentUserHasRole(Role role) {
         boolean hasRole = false;
         UserDetails userDetails = getUserDetails();
         if (userDetails != null) {
             for(GrantedAuthority grantedAuthority : userDetails.getAuthorities()){
-                hasRole = grantedAuthority.getAuthority().equals(role);
+                hasRole = (grantedAuthority == role);
                 if(hasRole)
                     break;
             }
@@ -82,8 +83,13 @@ public class UserService implements UserServiceInterface, UserDetailsService {
         }
         return userDetails;
     }
-    public User getUserByContext() {
-        User user = findUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        return user;
+
+    public boolean isExistEmailOrLogin(String login, String email){
+        User findUserByLogin = findUserByLogin(login);
+        User findUserByEmail = findUserByEmail(email);
+        if(findUserByEmail != null || findUserByLogin != null)
+            return true;
+        return false;
     }
+
 }

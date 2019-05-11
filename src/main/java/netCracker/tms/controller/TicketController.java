@@ -1,12 +1,15 @@
 package netCracker.tms.controller;
 
+import netCracker.tms.models.Enums.Role;
 import netCracker.tms.models.Enums.TicketCategory;
 import netCracker.tms.models.Enums.TicketPriority;
 import netCracker.tms.models.Enums.TicketStatus;
 import netCracker.tms.models.Ticket;
+import netCracker.tms.models.User;
 import netCracker.tms.services.Implements.TicketService;
 import netCracker.tms.services.Implements.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,7 +31,7 @@ public class TicketController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("tickets");
         modelAndView.addObject("ticketList", tickets);
-        modelAndView.addObject("isAdmin", userService.currentUserHasRole("ROLE_ADMIN"));
+        modelAndView.addObject("isAdmin", userService.currentUserHasRole(Role.ADMIN));
         return modelAndView;
     }
 

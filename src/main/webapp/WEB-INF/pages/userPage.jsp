@@ -11,7 +11,14 @@
     <title>My page</title>
 </head>
 <body>
+<div>
+    <form action="/logout" method="post">
+        <input type="submit" value="Sign out"/>
+    </form>
+</div>
+<h2>My page</h2>
 <h2>My tickets</h2>
+<h2>Hello, ${currentUser.firstName} ${currentUser.secondName}</h2>
 <table>
     <tr>
         <th>id</th>
@@ -22,9 +29,9 @@
         <th>priority</th>
         <th>description</th>
         <th>description detection problem</th>
-<%--        <c:if test="${isAdmin}">--%>
-<%--            <th>action</th>--%>
-<%--        </c:if>--%>
+        <c:if test="${isAdmin}">
+            <th>action</th>
+        </c:if>
     </tr>
     <c:forEach var="ticket" items="${ticketList}">
         <tr>
@@ -37,14 +44,19 @@
             <td>${ticket.description}</td>
             <td>${ticket.detectionProblemDescription}</td>
 
-<%--            <c:if test="${isAdmin}">--%>
-<%--                <td>--%>
-<%--                    <a href="/edit/${ticket.id}">edit</a>--%>
-<%--                    <a href="/deleteTicket/${ticket.id}">delete</a>--%>
-<%--                </td>--%>
-<%--            </c:if>--%>
+            <c:if test="${isAdmin}">
+                <td>
+                    <a href="/edit/${ticket.id}">edit</a>
+                    <a href="/deleteTicket/${ticket.id}">delete</a>
+                </td>
+            </c:if>
         </tr>
     </c:forEach>
 </table>
+
+<h2>Add</h2>
+<c:url value="/addTicket" var="add"/>
+<a href="${add}">Add new ticket</a>
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 package netCracker.tms.config;
 
+import netCracker.tms.models.Enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +35,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .withUser("User")
                     .password(bPasswordEncoder().encode("user"))
                     .roles("USER");
-
     }
 
     @Override
@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().authenticated()
                 .and()
                     .formLogin().loginPage("/login")
-                    .defaultSuccessUrl("/ticket").failureUrl("/login?error").permitAll()
+                    .defaultSuccessUrl("/user").failureUrl("/login?error").permitAll()
                 .and()
                     .logout().logoutSuccessUrl("/").permitAll();
     }

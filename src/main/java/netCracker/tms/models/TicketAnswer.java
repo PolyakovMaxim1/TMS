@@ -49,7 +49,6 @@ public class TicketAnswer {
         this.ticket = ticket;
     }
 
-
     public Date getDateAnswer() {
         return dateAnswer;
     }
