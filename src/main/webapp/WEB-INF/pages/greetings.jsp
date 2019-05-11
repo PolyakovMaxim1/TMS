@@ -12,6 +12,6 @@
 </head>
 <body>
 <div>Hello, user</div>
-<a href="/main">Main Page</a>
+<a href="/main">My Page</a>
 </body>
 </html>

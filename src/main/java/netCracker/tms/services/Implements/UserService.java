@@ -82,4 +82,8 @@ public class UserService implements UserServiceInterface, UserDetailsService {
         }
         return userDetails;
     }
+    public User getUserByContext() {
+        User user = findUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        return user;
+    }
 }

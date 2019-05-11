@@ -20,7 +20,15 @@ public class GreetingController {
 //    @Autowired
 //    UserService userService;
 
+
     @GetMapping (value = "/")
+    public ModelAndView mainPage(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("greetings");
+        return modelAndView;
+    }
+
+    @GetMapping (value = "/main")
     public ModelAndView allUsers(){
         List<User> users = userService.getAllUsers();
         ModelAndView modelAndView = new ModelAndView();

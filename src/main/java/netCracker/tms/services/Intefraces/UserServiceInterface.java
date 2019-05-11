@@ -2,7 +2,7 @@ package netCracker.tms.services.Intefraces;
 
 import netCracker.tms.models.User;
 
-import java.util.*;
+import java.util.List;
 
 public interface UserServiceInterface {
 
@@ -21,4 +21,6 @@ public interface UserServiceInterface {
     List<User> findAllUsers();
 
     boolean currentUserHasRole(String role);
+
+    public User getUserByContext();
 }
