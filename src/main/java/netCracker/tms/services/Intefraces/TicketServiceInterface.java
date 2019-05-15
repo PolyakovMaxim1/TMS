@@ -1,6 +1,7 @@
 package netCracker.tms.services.Intefraces;
 
 import netCracker.tms.models.Ticket;
+import netCracker.tms.models.User;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface TicketServiceInterface {
     public void updateTicket(Ticket ticket);
 
     public List<Ticket> findAllTickets();
+
+    List<Ticket> findAllByRaisedBy(User user);
 }

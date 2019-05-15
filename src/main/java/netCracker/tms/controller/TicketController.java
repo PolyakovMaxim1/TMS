@@ -29,7 +29,6 @@ public class TicketController {
     @GetMapping (value = "/ticket")
     public ModelAndView allTickets(@AuthenticationPrincipal User user){
         List<Ticket> tickets = ticketService.findAllTickets();
-//        List<Ticket> tickets = user.getTickets().stream().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("tickets");
         modelAndView.addObject("ticketList", tickets);
@@ -37,44 +36,117 @@ public class TicketController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/addTicket", method = RequestMethod.GET)
-    public ModelAndView addPageTicket() {
+    @GetMapping (value = "/userpage/alltickets/{id}")
+    public ModelAndView allUserTickets(@AuthenticationPrincipal User user,
+                                       @PathVariable("id") int id){
+        List<Ticket> tickets = ticketService.findAllTickets();
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("editPageTicket");
+        String param = "alltickets";
+        modelAndView.setViewName("userpage");
+        modelAndView.addObject("message", "All tickets");
+        modelAndView.addObject("message2", param);
+        modelAndView.addObject("ticketList", tickets);
+        modelAndView.addObject("isAdmin", userService.currentUserHasRole(Role.ADMIN));
+        modelAndView.addObject("currentUser", user);
         return modelAndView;
     }
 
-    @RequestMapping(value = "/addTicket", method = RequestMethod.POST)
-    public ModelAndView addTicket(@RequestParam String description,
+    @GetMapping (value = "/userpage/mytickets/{id}")
+    public ModelAndView UserTickets(@AuthenticationPrincipal User user,
+                                    @PathVariable("id") int id){
+//        List<Ticket> tickets = user.getTickets().stream().collect(Collectors.toList());
+//        List<Ticket> tickets = ticketService.findAllByRaisedBy(user.getId());
+        List<Ticket> tickets = ticketService.findAllByRaisedBy(user);
+        ModelAndView modelAndView = new ModelAndView();
+        String param = "mytickets";
+        modelAndView.setViewName("userpage");
+        modelAndView.addObject("message", "My tickets");
+        modelAndView.addObject("message2", param);
+        modelAndView.addObject("ticketList", tickets);
+        modelAndView.addObject("currentUser", user);
+        modelAndView.addObject("isAdmin", userService.currentUserHasRole(Role.ADMIN));
+        return modelAndView;
+    }
+
+    @RequestMapping(value="/addTicket/{id}", method = RequestMethod.GET)
+    public ModelAndView addTicket(@PathVariable("id") int id) {
+        User user = userService.findUserById(id);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("editPageTicket");
+        modelAndView.addObject("user", user);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/addTicket/{id}", method = RequestMethod.POST)
+    public ModelAndView addTicket(@AuthenticationPrincipal User currentUser,
+                                  @PathVariable("id") int id,
+                                  @RequestParam String description,
                                   @RequestParam String descriptionDetectionProblem,
                                   @RequestParam String productVersionDiscovery,
                                   @RequestParam String productVersionFixed,
                                   @RequestParam int priorityId,
                                   @RequestParam int statusId,
                                   @RequestParam int categoryId,
-                                  @RequestParam int raisedById,
                                   @RequestParam int assignedToId) {
         Ticket ticket = new Ticket();
         ticket.setDescription(description);
+        ticket.setRaisedBy(userService.findUserById(id));
         ticket.setDetectionProblemDescription(descriptionDetectionProblem);
         ticket.setPriority(TicketPriority.values()[priorityId]);
         ticket.setStatus(TicketStatus.values()[statusId]);
         ticket.setCategory(TicketCategory.values()[categoryId]);
-        ticket.setRaisedBy(userService.findUserById(raisedById));
         ticket.setAssignedTo(userService.findUserById(assignedToId));
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/ticket");
         ticketService.insertTicket(ticket);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/userpage/mytickets/" + id);
+
         return modelAndView;
     }
-    //
+
+    @GetMapping(value = "/userpage/{param}/deleteTicket/{id}")
+    public ModelAndView deleteTicket(@AuthenticationPrincipal User currentUser,
+                                     @PathVariable("param") String param,
+                                     @PathVariable("id") int id) {
+        Ticket ticket = ticketService.findTicketById(id);
+        ticketService.deleteTicket(ticket);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/userpage/{param}/{id}");
+        return modelAndView;
+    }
+
     @GetMapping(value = "/deleteTicket/{id}")
     public ModelAndView deleteTicket(@PathVariable("id") int id) {
         Ticket ticket = ticketService.findTicketById(id);
         ticketService.deleteTicket(ticket);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/ticket");
+        return modelAndView;
+    }
+
+//////////////////
+    @PostMapping (value = "/userpage/filter")
+    public ModelAndView filter(@AuthenticationPrincipal User currentUser,
+                               @RequestParam(required = false) String description,
+                               @RequestParam(required = false) String descriptionDetectionProblem,
+                               @RequestParam String raisedById,
+                               @RequestParam(required = false) String assignedToId,
+                               @RequestParam(required = false) String statusId,
+                               @RequestParam(required = false) String priorityId,
+                               @RequestParam(required = false) String categoryId,
+                               @RequestParam(required = false) String productVersionDiscovery,
+                               @RequestParam(required = false) String productVersionFixed){
+
+        ModelAndView modelAndView = new ModelAndView();
+//        List<Ticket> tickets = ticketService.filter(description, descriptionDetectionProblem);
+        String param = "mytickets";
+        modelAndView.setViewName("userpage");
+        modelAndView.addObject("message", "My tickets");
+        modelAndView.addObject("message2", param);
+//        modelAndView.addObject("ticketList", tickets);
+        modelAndView.addObject("currentUser", currentUser);
+        modelAndView.addObject("isAdmin", userService.currentUserHasRole(Role.ADMIN));
         return modelAndView;
     }
 

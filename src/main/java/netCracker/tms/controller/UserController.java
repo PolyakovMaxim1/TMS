@@ -1,6 +1,9 @@
 package netCracker.tms.controller;
 
 import netCracker.tms.models.Enums.Role;
+import netCracker.tms.models.Enums.TicketCategory;
+import netCracker.tms.models.Enums.TicketPriority;
+import netCracker.tms.models.Enums.TicketStatus;
 import netCracker.tms.models.Ticket;
 import netCracker.tms.models.User;
 import netCracker.tms.services.Implements.TicketService;
@@ -8,10 +11,7 @@ import netCracker.tms.services.Implements.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -27,22 +27,14 @@ public class UserController {
     private TicketService ticketService;
 
     @GetMapping (value = "/user")
-    public ModelAndView userPage(@AuthenticationPrincipal User currentUser){
+    public ModelAndView userPage(@AuthenticationPrincipal User currentUser) {
         ModelAndView modelAndView = new ModelAndView();
-        List<Ticket> tickets = currentUser.getTickets().stream().collect(Collectors.toList());
+        List<Ticket> tickets = ticketService.findAllByRaisedBy(currentUser);
         modelAndView.setViewName("userpage");
+        modelAndView.addObject("message", "My tickets");
         modelAndView.addObject("isAdmin", userService.currentUserHasRole(Role.ADMIN));
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("ticketList", tickets);
-        return modelAndView;
-    }
-
-    @RequestMapping(value="/addTicket/{id}", method = RequestMethod.GET)
-    public ModelAndView addTicket(@PathVariable("id") int id) {
-        User user = userService.findUserById(id);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("editPageTicket");
-        modelAndView.addObject("user", user);
         return modelAndView;
     }
 

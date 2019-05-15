@@ -5,6 +5,7 @@ import netCracker.tms.models.Enums.Gender;
 import netCracker.tms.models.Enums.Role;
 import netCracker.tms.services.withoutRep.serviceImplementswithoutRep.UserService;
 import netCracker.tms.services.withoutRep.serviceInterfacewithoutRep.UserServiceInterface;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;

@@ -36,7 +36,7 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 
     @Override
     public void updateUser(User user) {
-
+        userRep.save(user);
     }
     @Override
     public User findUserByLogin(String name) {
@@ -91,5 +91,10 @@ public class UserService implements UserServiceInterface, UserDetailsService {
             return true;
         return false;
     }
+
+    public List<User> findByFirstNameSecondName(String firstName, String secondName){
+        return userRep.findAllByFirstNameOrSecondName(firstName, secondName);
+    }
+
 
 }

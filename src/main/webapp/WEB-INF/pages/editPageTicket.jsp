@@ -11,7 +11,7 @@
 </head>
 <body>
 <c:if test="${empty ticket.description}">
-    <c:url value="/addTicket" var="var"/>
+    <c:url value="/addTicket/${user.id}" var="var"/>
 </c:if>
 <c:if test="${!empty ticket.description}">
     <c:url value="/edit" var="var"/>
