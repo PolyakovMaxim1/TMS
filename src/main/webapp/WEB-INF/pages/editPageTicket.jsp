@@ -57,7 +57,7 @@
             <option>Enter priority ticket</option>
             <option value="0">Bug</option>
             <option value="1">Dev task</option>
-            <option value="2">On hold</option>
+            <option value="2">Work item</option>
         </select>
     </p>
     <p><b>Write product version discovery</b></p>

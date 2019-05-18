@@ -77,9 +77,9 @@ public class TicketController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/addTicket/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/addTicket/{userId}", method = RequestMethod.POST)
     public ModelAndView addTicket(@AuthenticationPrincipal User currentUser,
-                                  @PathVariable("id") int id,
+                                  @PathVariable("userId") int userId,
                                   @RequestParam String description,
                                   @RequestParam String descriptionDetectionProblem,
                                   @RequestParam String productVersionDiscovery,
@@ -90,7 +90,7 @@ public class TicketController {
                                   @RequestParam int assignedToId) {
         Ticket ticket = new Ticket();
         ticket.setDescription(description);
-        ticket.setRaisedBy(userService.findUserById(id));
+        ticket.setRaisedBy(userService.findUserById(userId));
         ticket.setDetectionProblemDescription(descriptionDetectionProblem);
         ticket.setPriority(TicketPriority.values()[priorityId]);
         ticket.setStatus(TicketStatus.values()[statusId]);
@@ -100,7 +100,7 @@ public class TicketController {
         ticketService.insertTicket(ticket);
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/userpage/mytickets/" + id);
+        modelAndView.setViewName("redirect:/userpage/mytickets/" + userId);
 
         return modelAndView;
     }
@@ -126,25 +126,68 @@ public class TicketController {
     }
 
 //////////////////
+//    @PostMapping (value = "/userpage/filter")
+//    public ModelAndView filter(@AuthenticationPrincipal User currentUser,
+//                               @RequestParam(required = false) String description,
+//                               @RequestParam(required = false) String descriptionDetectionProblem,
+//                               @RequestParam(required = false) String productVersionDiscovery,
+//                               @RequestParam(required = false) String productVersionFixed,
+//
+//                               @RequestParam(required = false) String priorityId,
+//                               @RequestParam(required = false) String statusId,
+//                               @RequestParam(required = false) String categoryId,
+//                               @RequestParam(required = false) String assignedToId,
+//                               @RequestParam(required = false) String raisedById) {
+//
+//        Ticket ticket = new Ticket();
+//
+////        ticket.setDescription(description);
+////        ticket.setDetectionProblemDescription(descriptionDetectionProblem);
+////
+////        ticket.setDiscoveryProductVersion(productVersionDiscovery);
+////        ticket.setFixedProductVersion(productVersionFixed);
+////
+////        ticket.setPriority(TicketPriority.values()[priorityId]);
+////        ticket.setStatus(TicketStatus.values()[statusId]);
+////        ticket.setCategory(TicketCategory.values()[categoryId]);
+////
+////        ticket.setAssignedTo(userService.findUserById(assignedToId));
+//
+//        List<Ticket> tickets = ticketService.filter(ticket, null);
+//        ModelAndView modelAndView = new ModelAndView();
+//        String param = "mytickets";
+//        modelAndView.setViewName("userpage");
+//        modelAndView.addObject("message", "My tickets");
+//        modelAndView.addObject("message2", param);
+////        modelAndView.addObject("ticketList", tickets);
+//        modelAndView.addObject("currentUser", currentUser);
+//        modelAndView.addObject("isAdmin", userService.currentUserHasRole(Role.ADMIN));
+//        return modelAndView;
+//    }
+
+
+
+
+
     @PostMapping (value = "/userpage/filter")
     public ModelAndView filter(@AuthenticationPrincipal User currentUser,
-                               @RequestParam(required = false) String description,
-                               @RequestParam(required = false) String descriptionDetectionProblem,
-                               @RequestParam String raisedById,
-                               @RequestParam(required = false) String assignedToId,
-                               @RequestParam(required = false) String statusId,
-                               @RequestParam(required = false) String priorityId,
-                               @RequestParam(required = false) String categoryId,
-                               @RequestParam(required = false) String productVersionDiscovery,
-                               @RequestParam(required = false) String productVersionFixed){
+                               Ticket ticket,
+                               @RequestParam(required = false) String raisedByFirstName,
+                               @RequestParam(required = false) String raisedBySecondName,
+                               @RequestParam(required = false) String assignedToFirstName,
+                               @RequestParam(required = false) String assignedToSecondName) {
 
+        List<Ticket> tickets = ticketService.filter(ticket,
+                                        raisedByFirstName,
+                                        raisedBySecondName,
+                                        assignedToFirstName,
+                                        assignedToSecondName);
         ModelAndView modelAndView = new ModelAndView();
-//        List<Ticket> tickets = ticketService.filter(description, descriptionDetectionProblem);
-        String param = "mytickets";
+        String param = "alltickets";
         modelAndView.setViewName("userpage");
-        modelAndView.addObject("message", "My tickets");
+        modelAndView.addObject("message", "All tickets");
         modelAndView.addObject("message2", param);
-//        modelAndView.addObject("ticketList", tickets);
+        modelAndView.addObject("ticketList", tickets);
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("isAdmin", userService.currentUserHasRole(Role.ADMIN));
         return modelAndView;

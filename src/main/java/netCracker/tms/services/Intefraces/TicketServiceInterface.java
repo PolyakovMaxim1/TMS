@@ -18,4 +18,10 @@ public interface TicketServiceInterface {
     public List<Ticket> findAllTickets();
 
     List<Ticket> findAllByRaisedBy(User user);
+
+    List<Ticket> filter(Ticket ticket,
+                        String raisedByFirstName,
+                        String raisedBySecondName,
+                        String assignedToFirstName,
+                        String assignedToSecondName);
 }

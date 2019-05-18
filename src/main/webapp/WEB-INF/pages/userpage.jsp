@@ -21,7 +21,7 @@
 <h2>${message}</h2>
 <table>
     <tr>
-        <td valign="top" >
+        <td valign="top">
             <table>
                 <tr>
                     <td><a href="/userpage/alltickets/${currentUser.id}">All tickets</a></td>
@@ -51,72 +51,79 @@
                         <th>action</th>
                     </c:if>
                 </tr>
-            <c:forEach var="ticket" items="${ticketList}">
-                <tr>
-                    <td>${ticket.id}</td>
-                    <td>${ticket.raisedBy.firstName.toString()}</td>
-                    <td>${ticket.assignedTo.firstName.toString()}</td>
-                    <td>${ticket.category.toString()}</td>
-                    <td>${ticket.status.toString()}</td>
-                    <td>${ticket.priority.toString()}</td>
-                    <td>${ticket.description}</td>
-                    <td>${ticket.detectionProblemDescription}</td>
-                    <c:if test="${isAdmin}">
-                        <td>
-                            <a href="/userpage/${message2.toString()}/edit/${ticket.id}">edit</a>
-                            <a href="/userpage/${message2.toString()}/deleteTicket/${ticket.id}">delete</a>
-                        </td>
-                    </c:if>
-                </tr>
-            </c:forEach>
+                <c:forEach var="ticket" items="${ticketList}">
+                    <tr>
+                        <td>${ticket.id}</td>
+                        <td>${ticket.raisedBy.firstName.toString()}</td>
+                        <td>${ticket.assignedTo.firstName.toString()}</td>
+                        <td>${ticket.category.toString()}</td>
+                        <td>${ticket.status.toString()}</td>
+                        <td>${ticket.priority.toString()}</td>
+                        <td>${ticket.description}</td>
+                        <td>${ticket.detectionProblemDescription}</td>
+                        <c:if test="${isAdmin}">
+                            <td>
+                                <a href="/userpage/${message2.toString()}/edit/${ticket.id}">edit</a>
+                                <a href="/userpage/${message2.toString()}/deleteTicket/${ticket.id}">delete</a>
+                            </td>
+                        </c:if>
+                    </tr>
+                </c:forEach>
             </table>
         </td>
         <td valign="top">
             <form action="/userpage/filter" method="POST">
-                <h2>Filter</h2>
-                <p><b>Write ticket description</b></p>
-                <p><input type="text" name="description"/></p>
-                <p><b>Describe how to detect a bug</b></p>
-                <p><input type="text" name="descriptionDetectionProblem"/></p>
-                <p><b>Write id author</b></p>
-                <p><input type="text" name="raisedById"/></p>
-                <p><b>Write id assigned</b></p>
-                <p><input type="text" name="assignedToId"/></p>
-                <p>
-                    <select size = 1 name="statusId">
-                        <option>Enter status ticket</option>
-                        <option value="0">New</option>
-                        <option value="1">Open</option>
-                        <option value="2">On hold</option>
-                        <option value="3">Solver</option>
-                        <option value="4">Closed</option>
-                        <option value="5">In progress</option>
-                    </select>
-                </p>
-                <p>
-                    <select size = 1 name="priorityId">
-                        <option>Enter priority ticket</option>
-                        <option value="0">Low</option>
-                        <option value="1">Normal</option>
-                        <option value="2">Medium</option>
-                        <option value="3">High</option>
-                        <option value="4">Critical</option>
-                    </select>
-                </p>
-                <p>
-                    <select size = 1 name="categoryId">
-                        <option>Enter priority ticket</option>
-                        <option value="0">Bug</option>
-                        <option value="1">Dev task</option>
-                        <option value="2">On hold</option>
-                    </select>
-                </p>
-                <p><b>Write product version discovery</b></p>
-                <p><input type="text" name="productVersionDiscovery", placeholder="version in"></p>
-                <p><b>Write product version fixed</b></p>
-                <p><input type="text" name="productVersionFixed", placeholder="version out"></p>
 
-                <input type="submit" value="filter">
+                <fieldset>
+                    <legend><h2>Ticket search</h2></legend>
+                    <p><b>Write ticket description</b></p>
+                    <p><input type="text" name="description" value/></p>
+                    <p><b>Describe how to detect a bug</b></p>
+                    <p><input type="text" name="detectionProblemDescription" value/></p>
+                    <p><b>Write first name author</b></p>
+                    <p><input type="text" name="raisedByFirstName" value/></p>
+                    <p><b>Write second name author</b></p>
+                    <p><input type="text" name="raisedBySecondName" value/></p>
+                    <p><b>Write first name assigned</b></p>
+                    <p><input type="text" name="assignedToFirstName" value/></p>
+                    <p><b>Write second name assigned</b></p>
+                    <p><input type="text" name="assignedToSecondName" value/></p>
+                    <p>
+                        <select size=1 name="status">
+                            <option value="">Enter status ticket</option>
+                            <option value="NEW">New</option>
+                            <option value="OPEN">Open</option>
+                            <option value="ON_HOLD">On hold</option>
+                            <option value="SOLVER">Solver</option>
+                            <option value="CLOSED">Closed</option>
+                            <option value="IN_PROGRESS">In progress</option>
+                        </select>
+                    </p>
+                    <p>
+                        <select size=1 name="priority">
+                            <option value="">Enter priority ticket</option>
+                            <option value="LOW">Low</option>
+                            <option value="NORMAL">Normal</option>
+                            <option value="MEDIUM">Medium</option>
+                            <option value="HIGH">High</option>
+                            <option value="CRITICAL">Critical</option>
+                        </select>
+                    </p>
+                    <p>
+                        <select size=1 name="category">
+                            <option value="">Enter priority ticket</option>
+                            <option value="BUG">Bug</option>
+                            <option value="DEV_TASK">Dev task</option>
+                            <option value="WORK_ITEM">Work item</option>
+                        </select>
+                    </p>
+                    <p><b>Write product version discovery</b></p>
+                    <p><input type="text" name="discoveryProductVersion" value></p>
+                    <p><b>Write product version fixed</b></p>
+                    <p><input type="text" name="fixedProductVersion" value></p>
+
+                    <input type="submit" value="Filter">
+                </fieldset>
             </form>
         </td>
     </tr>

@@ -96,5 +96,4 @@ public class UserService implements UserServiceInterface, UserDetailsService {
         return userRep.findAllByFirstNameOrSecondName(firstName, secondName);
     }
 
-
 }
