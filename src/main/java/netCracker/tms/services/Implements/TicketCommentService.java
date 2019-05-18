@@ -1,6 +1,8 @@
 package netCracker.tms.services.Implements;
 
+import netCracker.tms.models.Ticket;
 import netCracker.tms.models.TicketAnswer;
+import netCracker.tms.models.User;
 import netCracker.tms.repositories.TicketCommentRep;
 import netCracker.tms.services.Intefraces.TicketCommentServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +39,10 @@ public class TicketCommentService implements TicketCommentServiceInterface {
     @Override
     public List<TicketAnswer> findAllTicketAnswer() {
         return ticketCommentRep.findAll();
+    }
+
+    @Override
+    public List<TicketAnswer> findTicketAnswersByTicket(Ticket ticket) {
+        return ticketCommentRep.findTicketAnswersByTicket(ticket);
     }
 }

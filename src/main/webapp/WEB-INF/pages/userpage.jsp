@@ -67,6 +67,9 @@
                                 <a href="/userpage/${message2.toString()}/deleteTicket/${ticket.id}">delete</a>
                             </td>
                         </c:if>
+                        <td>
+                            <a href="/ticketPage/${ticket.id}">go to page</a>
+                        </td>
                     </tr>
                 </c:forEach>
             </table>

@@ -15,9 +15,16 @@ public class TicketAnswer {
     @JoinColumn (name = "ticket_id")
     private Ticket ticket;
 
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "respond_id")
     private User user;
+
+    @Basic
+    @Column (name = "date_answer")
+    private Date dateAnswer;
+
+    @Column (name = "message")
+    private String message;
 
     public User getUser() {
         return user;
@@ -26,12 +33,6 @@ public class TicketAnswer {
     public void setUser(User user) {
         this.user = user;
     }
-
-    @Column (name = "date_answer")
-    private Date dateAnswer;
-
-    @Column (name = "message")
-    private String message;
 
     public long getId() {
         return id;
