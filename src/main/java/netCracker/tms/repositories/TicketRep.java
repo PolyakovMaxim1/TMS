@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface TicketRep extends JpaRepository<Ticket, Long> {
     List<Ticket> findAllByRaisedBy(User user);
+    List<Ticket> findAllByAssignedTo(User user);
 }

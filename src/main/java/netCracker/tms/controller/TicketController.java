@@ -12,10 +12,13 @@ import netCracker.tms.services.Implements.TicketService;
 import netCracker.tms.services.Implements.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
@@ -32,19 +35,21 @@ public class TicketController {
     @Autowired
     private TicketCommentService ticketCommentService;
 
-    @GetMapping (value = "/ticket")
-    public ModelAndView allTickets(@AuthenticationPrincipal User user){
+    @GetMapping(value = "/ticket")
+    public ModelAndView allTickets(@AuthenticationPrincipal User user) {
         List<Ticket> tickets = ticketService.findAllTickets();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("tickets");
         modelAndView.addObject("ticketList", tickets);
         modelAndView.addObject("isAdmin", userService.currentUserHasRole(Role.ADMIN));
+
         return modelAndView;
+
     }
 
-    @GetMapping (value = "/userpage/alltickets/{id}")
+    @GetMapping(value = "/userpage/alltickets/{id}")
     public ModelAndView allUserTickets(@AuthenticationPrincipal User user,
-                                       @PathVariable("id") int id){
+                                       @PathVariable("id") int id) {
         List<Ticket> tickets = ticketService.findAllTickets();
         ModelAndView modelAndView = new ModelAndView();
         String param = "alltickets";
@@ -57,14 +62,14 @@ public class TicketController {
         return modelAndView;
     }
 
-    @GetMapping (value = "/userpage/mytickets/{id}")
-    public ModelAndView UserTickets(@AuthenticationPrincipal User user,
-                                    @PathVariable("id") int id){
+    @GetMapping(value = "/userpage/raisedBy/{id}")
+    public ModelAndView raisedByTickets(@AuthenticationPrincipal User user,
+                                    @PathVariable("id") int id) {
 //        List<Ticket> tickets = user.getTickets().stream().collect(Collectors.toList());
 //        List<Ticket> tickets = ticketService.findAllByRaisedBy(user.getId());
         List<Ticket> tickets = ticketService.findAllByRaisedBy(user);
         ModelAndView modelAndView = new ModelAndView();
-        String param = "mytickets";
+        String param = "raisedBy";
         modelAndView.setViewName("userpage");
         modelAndView.addObject("message", "My tickets");
         modelAndView.addObject("message2", param);
@@ -74,7 +79,24 @@ public class TicketController {
         return modelAndView;
     }
 
-    @RequestMapping(value="/addTicket/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/userpage/assignedTo/{id}")
+    public ModelAndView AssignedToTickets(@AuthenticationPrincipal User user,
+                                    @PathVariable("id") int id) {
+//        List<Ticket> tickets = user.getTickets().stream().collect(Collectors.toList());
+//        List<Ticket> tickets = ticketService.findAllByRaisedBy(user.getId());
+        List<Ticket> tickets = ticketService.findAllByAssignedTo(user);
+        ModelAndView modelAndView = new ModelAndView();
+        String param = "assignedTo";
+        modelAndView.setViewName("userpage");
+        modelAndView.addObject("message", "On me tickets");
+        modelAndView.addObject("message2", param);
+        modelAndView.addObject("ticketList", tickets);
+        modelAndView.addObject("currentUser", user);
+        modelAndView.addObject("isAdmin", userService.currentUserHasRole(Role.ADMIN));
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/userpage/addTicket/{id}", method = RequestMethod.GET)
     public ModelAndView addTicket(@PathVariable("id") int id) {
         User user = userService.findUserById(id);
         ModelAndView modelAndView = new ModelAndView();
@@ -83,31 +105,15 @@ public class TicketController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/addTicket/{userId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/userpage/addTicket/{userId}", method = RequestMethod.POST)
     public ModelAndView addTicket(@AuthenticationPrincipal User currentUser,
                                   @PathVariable("userId") int userId,
-                                  @RequestParam String description,
-                                  @RequestParam String descriptionDetectionProblem,
-                                  @RequestParam String productVersionDiscovery,
-                                  @RequestParam String productVersionFixed,
-                                  @RequestParam int priorityId,
-                                  @RequestParam int statusId,
-                                  @RequestParam int categoryId,
-                                  @RequestParam int assignedToId) {
-        Ticket ticket = new Ticket();
-        ticket.setDescription(description);
-        ticket.setRaisedBy(userService.findUserById(userId));
-        ticket.setDetectionProblemDescription(descriptionDetectionProblem);
-        ticket.setPriority(TicketPriority.values()[priorityId]);
-        ticket.setStatus(TicketStatus.values()[statusId]);
-        ticket.setCategory(TicketCategory.values()[categoryId]);
-        ticket.setAssignedTo(userService.findUserById(assignedToId));
-
+                                  Ticket ticket) {
+        ticket.setDateDiscovery(new Date(System.currentTimeMillis()));
+        ticket.setRaisedBy(currentUser);
         ticketService.insertTicket(ticket);
-
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/userpage/mytickets/" + userId);
-
+        modelAndView.setViewName("redirect:/userpage/raisedBy/" + userId);
         return modelAndView;
     }
 
@@ -122,16 +128,7 @@ public class TicketController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/deleteTicket/{id}")
-    public ModelAndView deleteTicket(@PathVariable("id") int id) {
-        Ticket ticket = ticketService.findTicketById(id);
-        ticketService.deleteTicket(ticket);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/ticket");
-        return modelAndView;
-    }
-
-    @PostMapping (value = "/userpage/filter")
+    @PostMapping(value = "/userpage/filter")
     public ModelAndView filter(@AuthenticationPrincipal User currentUser,
                                Ticket ticket,
                                @RequestParam(required = false) String raisedByFirstName,
@@ -155,36 +152,32 @@ public class TicketController {
         return modelAndView;
     }
 
-    @GetMapping (value = "/ticketPage/{idTicket}")
-    public ModelAndView ticketPage(@AuthenticationPrincipal User currentUser,
-                                   @PathVariable("idTicket") long idTicket
-                               ) {
-
-        Ticket ticket = ticketService.findTicketById(idTicket);
-        List<TicketAnswer> comments = ticketCommentService.findTicketAnswersByTicket(ticket);
+    @RequestMapping(value = "/userpage/{param}/editTicket/{idTicket}", method = RequestMethod.GET)
+    public ModelAndView updateTicket(@PathVariable("idTicket") int idTicket,
+                                     @PathVariable("param") String param,
+                                     @AuthenticationPrincipal User user) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("ticket");
-        modelAndView.addObject("ticket", ticket);
-        modelAndView.addObject("comments", comments);
-        modelAndView.addObject("currentUser", currentUser);
-        modelAndView.addObject("isAdmin", userService.currentUserHasRole(Role.ADMIN));
+        modelAndView.setViewName("editPageTicket");
+        modelAndView.addObject("ticket", ticketService.findTicketById(idTicket));
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("messageUpdate", param);
         return modelAndView;
     }
 
-    @PostMapping (value = "/ticket/{idTicket}/addComment")
-    public ModelAndView addComment(@AuthenticationPrincipal User currentUser,
-                                   @PathVariable("idTicket") long idTicket,
-                                   @RequestParam String message) {
+    @RequestMapping(value = "/userpage/{param}/editTicket/{idTicket}", method = RequestMethod.POST)
+    public ModelAndView updateTicket(@AuthenticationPrincipal User currentUser,
+                                  @PathVariable("idTicket") long idTicket,
+                                  @PathVariable("param") String param,
+                                  Ticket newTicket) {
 
-        TicketAnswer ticketAnswer = new TicketAnswer();
-        ticketAnswer.setMessage(message);
-        ticketAnswer.setUser(currentUser);
-        ticketAnswer.setTicket(ticketService.findTicketById(idTicket));
-        ticketAnswer.setDateAnswer(new Date(System.currentTimeMillis()));
+        Ticket updatable = ticketService.findTicketById(idTicket);
+        newTicket.setAnswers(updatable.getAnswers());
+        newTicket.setRaisedBy(currentUser);
+        newTicket.setDateDiscovery(updatable.getDateDiscovery());
 
-        ticketCommentService.insertTicketAnswer(ticketAnswer);
+        ticketService.updateTicket(newTicket);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/ticketPage/" + idTicket);
+        modelAndView.setViewName("redirect:/userpage/{param}/" + currentUser.getId());
         return modelAndView;
     }
 

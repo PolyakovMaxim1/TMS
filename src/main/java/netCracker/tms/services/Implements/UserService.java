@@ -75,6 +75,7 @@ public class UserService implements UserServiceInterface, UserDetailsService {
      * Get info about currently logged in user
      * @return UserDetails if found in the context, null otherwise
      */
+    @Override
     public UserDetails getUserDetails() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = null;
@@ -84,6 +85,7 @@ public class UserService implements UserServiceInterface, UserDetailsService {
         return userDetails;
     }
 
+    @Override
     public boolean isExistEmailOrLogin(String login, String email){
         User findUserByLogin = findUserByLogin(login);
         User findUserByEmail = findUserByEmail(email);
@@ -92,8 +94,18 @@ public class UserService implements UserServiceInterface, UserDetailsService {
         return false;
     }
 
+    @Override
     public List<User> findByFirstNameSecondName(String firstName, String secondName){
         return userRep.findAllByFirstNameOrSecondName(firstName, secondName);
+    }
+
+    @Override
+    public boolean isInMemoryUser(){
+        UserDetails userDetails = getUserDetails();
+        if(userDetails.getUsername().equals("Admin")
+                || userDetails.getUsername().equals("User"))
+            return true;
+        return false;
     }
 
 }

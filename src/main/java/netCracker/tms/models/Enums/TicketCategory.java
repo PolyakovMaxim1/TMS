@@ -12,8 +12,7 @@ public enum TicketCategory {
         this.name = name;
     }
 
-    @Override
-    public String toString(){
+    public String getName() {
         return name;
     }
 }

@@ -31,9 +31,9 @@
     <tr>
         <td>${ticket.description}</td>
         <td>${ticket.detectionProblemDescription}</td>
-        <td>${ticket.status.toString()}</td>
-        <td>${ticket.category.toString()}</td>
-        <td>${ticket.priority.toString()}</td>
+        <td>${ticket.status.name}</td>
+        <td>${ticket.category.name}</td>
+        <td>${ticket.priority.name}</td>
         <td>${ticket.raisedBy.firstName.toString()} ${ticket.raisedBy.secondName.toString()}</td>
         <td>${ticket.assignedTo.firstName.toString()} ${ticket.assignedTo.secondName.toString()}</td>
         <td>${ticket.object}</td>

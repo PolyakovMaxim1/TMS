@@ -19,6 +19,8 @@ public interface TicketServiceInterface {
 
     List<Ticket> findAllByRaisedBy(User user);
 
+    List<Ticket> findAllByAssignedTo(User user);
+
     List<Ticket> filter(Ticket ticket,
                         String raisedByFirstName,
                         String raisedBySecondName,

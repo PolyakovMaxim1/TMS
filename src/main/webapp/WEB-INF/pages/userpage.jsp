@@ -17,18 +17,28 @@
     </form>
 </div>
 <h2>My page</h2>
-<h2>Hello, ${currentUser.firstName} ${currentUser.secondName}</h2>
+<c:if test="${isInMemoryUser}">
+    <h2>Hello, ${inMemoryUser.username.toString()}</h2>
+</c:if>
+<c:if test="${!isInMemoryUser}">
+    <h2>Hello, ${currentUser.firstName} ${currentUser.secondName}</h2>
+</c:if>
 <h2>${message}</h2>
 <table>
     <tr>
         <td valign="top">
             <table>
-                <tr>
-                    <td><a href="/userpage/alltickets/${currentUser.id}">All tickets</a></td>
-                </tr>
-                <tr>
-                    <td><a href="/userpage/mytickets/${currentUser.id}">My tickets</a></td>
-                </tr>
+                <c:if test="${!isInMemoryUser}">
+                    <tr>
+                        <td><a href="/userpage/alltickets/${currentUser.id}">All tickets</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="/userpage/raisedBy/${currentUser.id}">My tickets</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="/userpage/assignedTo/${currentUser.id}">On me tickets</a></td>
+                    </tr>
+                </c:if>
                 <c:if test="${isAdmin}">
                     <tr>
                         <td><a href="/main">List users</a></td>
@@ -39,7 +49,7 @@
         <td valign="top">
             <table>
                 <tr>
-                    <th>id</th>
+                    <%--                    <th>id</th>--%>
                     <th>raised by</th>
                     <th>assigned to</th>
                     <th>category</th>
@@ -47,24 +57,36 @@
                     <th>priority</th>
                     <th>description</th>
                     <th>description detection problem</th>
+                    <th>Discovery product version</th>
+                    <th>Fixed Product version</th>
+                    <th>Date</th>
                     <c:if test="${isAdmin}">
                         <th>action</th>
                     </c:if>
                 </tr>
                 <c:forEach var="ticket" items="${ticketList}">
                     <tr>
-                        <td>${ticket.id}</td>
-                        <td>${ticket.raisedBy.firstName.toString()}</td>
-                        <td>${ticket.assignedTo.firstName.toString()}</td>
-                        <td>${ticket.category.toString()}</td>
-                        <td>${ticket.status.toString()}</td>
-                        <td>${ticket.priority.toString()}</td>
+                            <%--                        <td>${ticket.id}</td>--%>
+                        <td>${ticket.raisedBy.firstName} ${ticket.raisedBy.secondName}</td>
+                        <td>${ticket.assignedTo.firstName} ${ticket.assignedTo.secondName}</td>
+                        <td>${ticket.category.name}</td>
+                        <td>${ticket.status.name}</td>
+                        <td>${ticket.priority.name}</td>
                         <td>${ticket.description}</td>
                         <td>${ticket.detectionProblemDescription}</td>
+                        <td>${ticket.discoveryProductVersion}</td>
+                        <td>${ticket.fixedProductVersion}</td>
+                        <td>${ticket.dateDiscovery}</td>
                         <c:if test="${isAdmin}">
                             <td>
-                                <a href="/userpage/${message2.toString()}/edit/${ticket.id}">edit</a>
-                                <a href="/userpage/${message2.toString()}/deleteTicket/${ticket.id}">delete</a>
+                                <c:if test="${isInMemoryUser}">
+                                    <a href="/userpage/deleteTicket/${ticket.id}">delete</a>
+                                    <a href="/userpage/editTicket/${ticket.id}">edit</a>
+                                </c:if>
+                                <c:if test="${!isInMemoryUser}">
+                                    <a href="/userpage/${message2}/editTicket/${ticket.id}">edit</a>
+                                    <a href="/userpage/${message2}/deleteTicket/${ticket.id}">delete</a>
+                                </c:if>
                             </td>
                         </c:if>
                         <td>
@@ -133,8 +155,14 @@
 </table>
 
 <h2>Add</h2>
-<c:url value="/addTicket/${currentUser.id}" var="add"/>
-<a href="/addTicket/${currentUser.id}">Add new ticket</a>
+<c:if test="${isInMemoryUser}">
+    <c:url value="/userpage/addTicket" var="add"/>
+    <a href="/userpage/addTicket">Add new ticket</a>
+</c:if>
+<c:if test="${!isInMemoryUser}">
+    <c:url value="/userpage/addTicket/${currentUser.id}" var="add"/>
+    <a href="/userpage/addTicket/${currentUser.id}">Add new ticket</a>
+</c:if>
 
 </body>
 </html>

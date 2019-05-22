@@ -56,7 +56,7 @@ public class Ticket {
     @JoinColumn (name = "object_id")
     private Object object;
 
-    @OneToMany (mappedBy = "ticket")
+    @OneToMany (mappedBy = "ticket", orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<TicketAnswer> answers;
 
 

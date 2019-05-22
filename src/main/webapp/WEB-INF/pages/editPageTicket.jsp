@@ -10,60 +10,71 @@
     </c:if>
 </head>
 <body>
-<c:if test="${empty ticket.description}">
-    <c:url value="/addTicket/${user.id}" var="var"/>
+<c:if test="${isInMemoryUser}">
+    <c:if test="${empty ticket.description}">
+        <c:url value="/userpage/addTicket" var="var"/>
+    </c:if>
+    <c:if test="${!empty ticket.description}">
+        <c:url value="/userpage/editTicket/${ticket.id}" var="var"/>
+    </c:if>
 </c:if>
-<c:if test="${!empty ticket.description}">
-    <c:url value="/edit" var="var"/>
+<c:if test="${!isInMemoryUser}">
+    <c:if test="${empty ticket.description}">
+        <c:url value="/userpage/addTicket/${user.id}" var="var"/>
+    </c:if>
+    <c:if test="${!empty ticket.description}">
+        <c:url value="/userpage/${messageUpdate}/editTicket/${ticket.id}" var="var"/>
+    </c:if>
 </c:if>
 <form action="${var}" method="POST">
+
     <c:if test="${!empty ticket.description}">
         <input type="hidden" name="id" value="${ticket.id}">
     </c:if>
 
     <p><b>Write ticket description</b></p>
-    <p><input type="text" name="description"/></p>
+    <p><input type="text" name="description", value="${ticket.description}"  , placeholder="${ticket.description}"/></p>
     <p><b>Describe how to detect a bug</b></p>
-    <p><input type="text" name="descriptionDetectionProblem"/></p>
+    <p><input type="text" name="detectionProblemDescription", value="${ticket.detectionProblemDescription}" placeholder="${ticket.detectionProblemDescription}"/></p>
     <c:if test="${empty user.id}">
         <p><b>Write id author</b></p>
-        <p><input type="text" name="raisedById"/></p>
+        <p><input type="text" name="raisedBy", value="${ticket.raisedBy.firstName}" placeholder="${ticket.raisedBy}"/></p>
     </c:if>
     <p><b>Write id assigned</b></p>
-    <p><input type="text" name="assignedToId"/></p>
+    <p><input type="text" name="assignedTo", value="${ticket.assignedTo.firstName}" placeholder="${ticket.assignedTo}"/></p>
     <p>
-        <select size = 1 name="statusId">
-            <option>Enter status ticket</option>
-            <option value="0">New</option>
-            <option value="1">Open</option>
-            <option value="2">On hold</option>
-            <option value="3">Solver</option>
-            <option value="4">Closed</option>
-            <option value="5">In progress</option>
+        <select size=1 name="status">
+            <option value="${ticket.status}">Enter status ticket</option>
+            <option value="NEW">New</option>
+            <option value="OPEN">Open</option>
+            <option value="ON_HOLD">On hold</option>
+            <option value="SOLVER">Solver</option>
+            <option value="CLOSED">Closed</option>
+            <option value="IN_PROGRESS">In progress</option>
         </select>
     </p>
     <p>
-        <select size = 1 name="priorityId">
-            <option>Enter priority ticket</option>
-            <option value="0">Low</option>
-            <option value="1">Normal</option>
-            <option value="2">Medium</option>
-            <option value="3">High</option>
-            <option value="4">Critical</option>
+        <select size=1 name="priority">
+            <option value="${ticket.priority}">Enter priority ticket</option>
+            <option value="LOW">Low</option>
+            <option value="NORMAL">Normal</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
+            <option value="CRITICAL">Critical</option>
         </select>
     </p>
     <p>
-        <select size = 1 name="categoryId">
-            <option>Enter priority ticket</option>
-            <option value="0">Bug</option>
-            <option value="1">Dev task</option>
-            <option value="2">Work item</option>
+        <select size=1 name="category">
+            <option value="${ticket.category}">Enter priority ticket</option>
+            <option value="BUG">Bug</option>
+            <option value="DEV_TASK">Dev task</option>
+            <option value="WORK_ITEM">Work item</option>
         </select>
     </p>
     <p><b>Write product version discovery</b></p>
-    <p><input type="text" name="productVersionDiscovery", placeholder="version in"></p>
+    <p><input type="text" name="discoveryProductVersion" , value="${ticket.discoveryProductVersion}", placeholder="${ticket.discoveryProductVersion}"></p>
     <p><b>Write product version fixed</b></p>
-    <p><input type="text" name="productVersionFixed", placeholder="version out"></p>
+    <p><input type="text" name="fixedProductVersion" , value="${ticket.fixedProductVersion}", placeholder="${ticket.fixedProductVersion}"></p>
 
     <c:if test="${empty ticket.description}">
         <input type="submit" value="Add new ticket">

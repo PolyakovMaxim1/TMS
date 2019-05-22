@@ -5,7 +5,6 @@ import netCracker.tms.models.User;
 import netCracker.tms.repositories.TicketRep;
 import netCracker.tms.services.Intefraces.TicketServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.Querydsl;
 import org.springframework.stereotype.Service;
 import sun.tools.tree.BooleanExpression;
 
@@ -44,6 +43,7 @@ public class TicketService implements TicketServiceInterface {
 
     @Override
     public void updateTicket(Ticket ticket) {
+        ticketRep.save(ticket);
     }
 
     @Override
@@ -51,10 +51,14 @@ public class TicketService implements TicketServiceInterface {
         return ticketRep.findAll();
     }
 
-
     @Override
     public List<Ticket> findAllByRaisedBy(User user) {
         return ticketRep.findAllByRaisedBy(user);
+    }
+
+    @Override
+    public List<Ticket> findAllByAssignedTo(User user) {
+        return ticketRep.findAllByAssignedTo(user);
     }
 
     public List<Ticket> findAll(Ticket ticket){
