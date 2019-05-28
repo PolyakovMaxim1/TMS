@@ -32,7 +32,7 @@ public class RegistrationController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView registration(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Collections.singleton(Role.ADMIN));
+        user.setRoles(Collections.singleton(Role.USER));
 
         ModelAndView modelAndView = new ModelAndView();
         if(userService.isExistEmailOrLogin(user.getLogin(), user.getEmail())){

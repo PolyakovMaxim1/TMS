@@ -14,12 +14,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -30,6 +30,10 @@ public class UserController {
 
     @Autowired
     private TicketService ticketService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
 
     @GetMapping (value = "/user")
     public ModelAndView userPage(@AuthenticationPrincipal User currentUser) {ModelAndView modelAndView = new ModelAndView();
@@ -58,4 +62,69 @@ public class UserController {
 
         return modelAndView;
     }
+
+    @GetMapping (value = "/userList")
+    public ModelAndView allUsersPage(@AuthenticationPrincipal User currentUser){
+        List<User> users = userService.findAllUsers();
+        ModelAndView modelAndView = new ModelAndView();
+        boolean isInMemoryUser = userService.isInMemoryUser();
+        boolean isAdmin = false;
+        if(isInMemoryUser){
+            isAdmin = userService.getUserDetails().getAuthorities().stream()
+                    .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+            modelAndView.addObject("inMemoryUser", userService.getUserDetails());
+        }
+        else {
+            isAdmin = userService.currentUserHasRole(Role.ADMIN);
+            modelAndView.addObject("currentUser", currentUser);
+        }
+        modelAndView.addObject("isAdmin", isAdmin);
+        modelAndView.addObject("isInMemoryUser", isInMemoryUser);
+        modelAndView.setViewName("users");
+        modelAndView.addObject("userList", users);
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/userList/deleteUser/{idUser}")
+    public ModelAndView deleteUser(@PathVariable("idUser") long idUser){
+        User deleteUser = userService.findUserById(idUser);
+        userService.deleteUser(deleteUser);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/userList");
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/userList/addUser")
+    public ModelAndView addUser(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("editPageUser");
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/userList/addUser")
+    public ModelAndView addUser(User user,
+                                @RequestParam(required = false) Role role1,
+                                @RequestParam(required = false) Role role2){
+        ModelAndView modelAndView = new ModelAndView();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if(userService.isExistEmailOrLogin(user.getLogin(), user.getEmail())){
+            String message = "User exists!";
+            modelAndView.addObject("message", message);
+            modelAndView.setViewName("editUserPage");
+            return modelAndView;
+        }
+        Set<Role> roles = new HashSet();
+        if(role1 != null){
+            roles.add(role1);
+        }
+        if(role2 != null){
+            roles.add(role2);
+        }
+        user.setRoles(roles);
+        userService.insertUser(user);
+        modelAndView.setViewName("redirect:/userList");
+        return modelAndView;
+    }
+
+
 }

@@ -34,6 +34,9 @@ public class InMemoryUserController {
     public ModelAndView addTicketPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editPageTicket");
+        modelAndView.addObject("listUsers", userService.findAllUsers());
+        modelAndView.addObject("isAdmin", userService.getUserDetails().getAuthorities().stream()
+                .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN")));
         modelAndView.addObject("isInMemoryUser", userService.isInMemoryUser());
         return modelAndView;
     }
@@ -53,6 +56,9 @@ public class InMemoryUserController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editPageTicket");
         modelAndView.addObject("ticket", ticket);
+        modelAndView.addObject("isAdmin", userService.getUserDetails().getAuthorities().stream()
+                .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN")));
+        modelAndView.addObject("listUsers", userService.findAllUsers());
         modelAndView.addObject("isInMemoryUser", userService.isInMemoryUser());
         return modelAndView;
     }
@@ -63,6 +69,7 @@ public class InMemoryUserController {
 //        ticketService.deleteTicket(ticketService.findTicketById(idTicket));
         Ticket updatable = ticketService.findTicketById(idTicket);
         newTicket.setAnswers(updatable.getAnswers());
+        newTicket.setDateDiscovery(updatable.getDateDiscovery());
         ticketService.updateTicket(newTicket);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/user");

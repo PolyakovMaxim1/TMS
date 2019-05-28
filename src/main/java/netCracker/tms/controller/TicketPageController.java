@@ -33,17 +33,25 @@ public class TicketPageController {
 
     @GetMapping(value = "/ticketPage/{idTicket}")
     public ModelAndView ticketPage(@AuthenticationPrincipal User currentUser,
-                                   @PathVariable("idTicket") long idTicket
-    ) {
-
+                                   @PathVariable("idTicket") long idTicket) {
+        boolean isInMemoryUser = userService.isInMemoryUser();
+        boolean isAdmin = false;
+        ModelAndView modelAndView = new ModelAndView();
+        if(isInMemoryUser){
+            isAdmin = userService.getUserDetails().getAuthorities().stream()
+                    .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+            modelAndView.addObject("inMemoryUser", userService.getUserDetails());
+        } else {
+            isAdmin = userService.currentUserHasRole(Role.ADMIN);
+            modelAndView.addObject("currentUser", currentUser);
+        }
         Ticket ticket = ticketService.findTicketById(idTicket);
         List<TicketAnswer> comments = ticketCommentService.findTicketAnswersByTicket(ticket);
-        ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("ticket");
         modelAndView.addObject("ticket", ticket);
+        modelAndView.addObject("isAdmin", isAdmin);
+        modelAndView.addObject("isInMemoryUser", isInMemoryUser);
         modelAndView.addObject("comments", comments);
-        modelAndView.addObject("currentUser", currentUser);
-        modelAndView.addObject("isAdmin", userService.currentUserHasRole(Role.ADMIN));
         return modelAndView;
     }
 

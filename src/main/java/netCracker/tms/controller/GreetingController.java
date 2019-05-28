@@ -30,15 +30,6 @@ public class GreetingController {
         return modelAndView;
     }
 
-    @GetMapping (value = "/main")
-    public ModelAndView allUsers(){
-        List<User> users = userService.getAllUsers();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("users");
-        modelAndView.addObject("userList", users);
-        return modelAndView;
-    }
-
     @GetMapping (value = "/edit/{id}")
     public ModelAndView editPageUser(@PathVariable("id") long id){
         User user = userService.findUser(id);

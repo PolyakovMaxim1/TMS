@@ -1,26 +1,17 @@
 package netCracker.tms.controller;
 
 import netCracker.tms.models.Enums.Role;
-import netCracker.tms.models.Enums.TicketCategory;
-import netCracker.tms.models.Enums.TicketPriority;
-import netCracker.tms.models.Enums.TicketStatus;
 import netCracker.tms.models.Ticket;
-import netCracker.tms.models.TicketAnswer;
 import netCracker.tms.models.User;
-import netCracker.tms.services.Implements.TicketCommentService;
 import netCracker.tms.services.Implements.TicketService;
 import netCracker.tms.services.Implements.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
 import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
 
 @Controller
@@ -31,9 +22,6 @@ public class TicketController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private TicketCommentService ticketCommentService;
 
     @GetMapping(value = "/ticket")
     public ModelAndView allTickets(@AuthenticationPrincipal User user) {
@@ -101,6 +89,8 @@ public class TicketController {
         User user = userService.findUserById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editPageTicket");
+        modelAndView.addObject("listUsers", userService.findAllUsers());
+        modelAndView.addObject("isAdmin", userService.currentUserHasRole(Role.ADMIN));
         modelAndView.addObject("user", user);
         return modelAndView;
     }
@@ -160,7 +150,9 @@ public class TicketController {
         modelAndView.setViewName("editPageTicket");
         modelAndView.addObject("ticket", ticketService.findTicketById(idTicket));
         modelAndView.addObject("user", user);
+        modelAndView.addObject("isAdmin", userService.currentUserHasRole(Role.ADMIN));
         modelAndView.addObject("messageUpdate", param);
+        modelAndView.addObject("listUsers", userService.findAllUsers());
         return modelAndView;
     }
 
