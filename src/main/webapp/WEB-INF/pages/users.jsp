@@ -18,7 +18,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 </head>
-<body>
+<body class="bg-light text-dark">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -71,7 +71,7 @@
 
 <div class="form-group">
     <h2 class="h2 ml-4">Users</h2>
-    <table class="table">
+    <table class="table table-sm">
         <thead class="thead-light">
         <tr>
             <th>Id</th>

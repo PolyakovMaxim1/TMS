@@ -18,7 +18,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 </head>
-<body>
+<body class="bg-light text-dark">
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -76,7 +76,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-10">
-            <table class="table-striped">
+            <table class="table-striped table-sm">
                 <thead class="thead-light">
                 <tr>
                     <%--                    <th>id</th>--%>

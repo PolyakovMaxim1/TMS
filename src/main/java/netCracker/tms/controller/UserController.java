@@ -8,6 +8,7 @@ import netCracker.tms.models.Ticket;
 import netCracker.tms.models.User;
 import netCracker.tms.services.Implements.TicketService;
 import netCracker.tms.services.Implements.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.configurers.provisioning.UserDetailsManagerConfigurer;
 import org.springframework.security.core.Authentication;
@@ -126,5 +127,37 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping(value = "/userList/editUser/{idUser}")
+    public ModelAndView editUser(@PathVariable long idUser){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("editPageUser");
+        modelAndView.addObject("user", userService.findUserById(idUser));
+        return modelAndView;
+    }
 
+    @PostMapping(value = "/userList/editUser/{idUser}")
+    public ModelAndView editUser(User user,
+                                @PathVariable long idUser,
+                                @RequestParam(required = false) Role role1,
+                                @RequestParam(required = false) Role role2){
+        ModelAndView modelAndView = new ModelAndView();
+        Set<Role> roles = new HashSet();
+        if(role1 != null){
+            roles.add(role1);
+        }
+        if(role2 != null){
+            roles.add(role2);
+        }
+        user.setRoles(roles);
+        User updatableUser = userService.findUserById(idUser);
+        if(user.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        } else {
+            user.setPassword(updatableUser.getPassword());
+        }
+        BeanUtils.copyProperties(user, updatableUser, "id","answers", "tickets");
+        userService.updateUser(updatableUser);
+        modelAndView.setViewName("redirect:/userList");
+        return modelAndView;
+    }
 }
