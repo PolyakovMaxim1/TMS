@@ -89,8 +89,8 @@
         </tr>
         </thead>
         <tr>
-            <td>${ticket.description}</td>
-            <td>${ticket.detectionProblemDescription}</td>
+            <td class="text-wrap text-break">${ticket.description}</td>
+            <td class="text-wrap text-break">${ticket.detectionProblemDescription}</td>
             <td>${ticket.status.name}</td>
             <td>${ticket.category.name}</td>
             <td>${ticket.priority.name}</td>
@@ -119,7 +119,7 @@
         </tr>
         <c:forEach var="comment" items="${comments}">
             <tr>
-                <td>${comment.message}</td>
+                <td class="text-wrap text-break">${comment.message}</td>
                 <td>${comment.user.firstName} ${comment.user.secondName}</td>
                 <td>${comment.dateAnswer}</td>
                 <c:choose>

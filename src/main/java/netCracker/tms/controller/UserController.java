@@ -1,27 +1,24 @@
 package netCracker.tms.controller;
 
 import netCracker.tms.models.Enums.Role;
-import netCracker.tms.models.Enums.TicketCategory;
-import netCracker.tms.models.Enums.TicketPriority;
-import netCracker.tms.models.Enums.TicketStatus;
 import netCracker.tms.models.Ticket;
 import netCracker.tms.models.User;
 import netCracker.tms.services.Implements.TicketService;
 import netCracker.tms.services.Implements.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.authentication.configurers.provisioning.UserDetailsManagerConfigurer;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -36,20 +33,20 @@ public class UserController {
     PasswordEncoder passwordEncoder;
 
 
-    @GetMapping (value = "/user")
-    public ModelAndView userPage(@AuthenticationPrincipal User currentUser) {ModelAndView modelAndView = new ModelAndView();
+    @GetMapping(value = "/user")
+    public ModelAndView userPage(@AuthenticationPrincipal User currentUser) {
+        ModelAndView modelAndView = new ModelAndView();
 
         boolean isInMemoryUser = userService.isInMemoryUser();
         boolean isAdmin = false;
         List<Ticket> tickets;
-        if(isInMemoryUser){
+        if (isInMemoryUser) {
             tickets = ticketService.findAllTickets();
             isAdmin = userService.getUserDetails().getAuthorities().stream()
                     .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
             modelAndView.addObject("message", "All tickets");
             modelAndView.addObject("inMemoryUser", userService.getUserDetails());
-        }
-        else {
+        } else {
             tickets = ticketService.findAllByRaisedBy(currentUser);
             isAdmin = userService.currentUserHasRole(Role.ADMIN);
             modelAndView.addObject("message", "My tickets");
@@ -64,18 +61,17 @@ public class UserController {
         return modelAndView;
     }
 
-    @GetMapping (value = "/userList")
-    public ModelAndView allUsersPage(@AuthenticationPrincipal User currentUser){
+    @GetMapping(value = "/userList")
+    public ModelAndView allUsersPage(@AuthenticationPrincipal User currentUser) {
         List<User> users = userService.findAllUsers();
         ModelAndView modelAndView = new ModelAndView();
         boolean isInMemoryUser = userService.isInMemoryUser();
         boolean isAdmin = false;
-        if(isInMemoryUser){
+        if (isInMemoryUser) {
             isAdmin = userService.getUserDetails().getAuthorities().stream()
                     .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
             modelAndView.addObject("inMemoryUser", userService.getUserDetails());
-        }
-        else {
+        } else {
             isAdmin = userService.currentUserHasRole(Role.ADMIN);
             modelAndView.addObject("currentUser", currentUser);
         }
@@ -87,7 +83,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/userList/deleteUser/{idUser}")
-    public ModelAndView deleteUser(@PathVariable("idUser") long idUser){
+    public ModelAndView deleteUser(@PathVariable("idUser") long idUser) {
         User deleteUser = userService.findUserById(idUser);
         userService.deleteUser(deleteUser);
         ModelAndView modelAndView = new ModelAndView();
@@ -96,7 +92,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/userList/addUser")
-    public ModelAndView addUser(){
+    public ModelAndView addUser() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editPageUser");
         return modelAndView;
@@ -105,20 +101,20 @@ public class UserController {
     @PostMapping(value = "/userList/addUser")
     public ModelAndView addUser(User user,
                                 @RequestParam(required = false) Role role1,
-                                @RequestParam(required = false) Role role2){
+                                @RequestParam(required = false) Role role2) {
         ModelAndView modelAndView = new ModelAndView();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if(userService.isExistEmailOrLogin(user.getLogin(), user.getEmail())){
+        if (userService.isExistEmailOrLogin(user.getLogin(), user.getEmail())) {
             String message = "User exists!";
             modelAndView.addObject("message", message);
             modelAndView.setViewName("editUserPage");
             return modelAndView;
         }
         Set<Role> roles = new HashSet();
-        if(role1 != null){
+        if (role1 != null) {
             roles.add(role1);
         }
-        if(role2 != null){
+        if (role2 != null) {
             roles.add(role2);
         }
         user.setRoles(roles);
@@ -128,7 +124,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/userList/editUser/{idUser}")
-    public ModelAndView editUser(@PathVariable long idUser){
+    public ModelAndView editUser(@PathVariable long idUser) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editPageUser");
         modelAndView.addObject("user", userService.findUserById(idUser));
@@ -137,25 +133,25 @@ public class UserController {
 
     @PostMapping(value = "/userList/editUser/{idUser}")
     public ModelAndView editUser(User user,
-                                @PathVariable long idUser,
-                                @RequestParam(required = false) Role role1,
-                                @RequestParam(required = false) Role role2){
+                                 @PathVariable long idUser,
+                                 @RequestParam(required = false) Role role1,
+                                 @RequestParam(required = false) Role role2) {
         ModelAndView modelAndView = new ModelAndView();
         Set<Role> roles = new HashSet();
-        if(role1 != null){
+        if (role1 != null) {
             roles.add(role1);
         }
-        if(role2 != null){
+        if (role2 != null) {
             roles.add(role2);
         }
         user.setRoles(roles);
         User updatableUser = userService.findUserById(idUser);
-        if(user.getPassword() != null) {
+        if (user.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         } else {
             user.setPassword(updatableUser.getPassword());
         }
-        BeanUtils.copyProperties(user, updatableUser, "id","answers", "tickets");
+        BeanUtils.copyProperties(user, updatableUser, "id", "answers", "tickets");
         userService.updateUser(updatableUser);
         modelAndView.setViewName("redirect:/userList");
         return modelAndView;

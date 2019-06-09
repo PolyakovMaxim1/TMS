@@ -76,81 +76,139 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-10">
-            <table class="table-striped table-sm">
-                <thead class="thead-light">
-                <tr>
-                    <%--                    <th>id</th>--%>
-                    <th scope="col">Raised by</th>
-                    <th scope="col">Assigned to</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Priority</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Description detection problem</th>
-                    <th scope="col">Discovery product version</th>
-                    <th scope="col">Fixed Product version</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">action</th>
-                </tr>
-                </thead>
-                <c:forEach var="ticket" items="${ticketList}">
-                    <tr>
-                            <%--                        <td>${ticket.id}</td>--%>
-                        <td>${ticket.raisedBy.firstName} ${ticket.raisedBy.secondName}</td>
-                        <td>${ticket.assignedTo.firstName} ${ticket.assignedTo.secondName}</td>
-                        <td>${ticket.category.name}</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${ticket.status eq 'OPEN'}">
-                                    <span class="badge badge-pill badge-primary">${ticket.status.name}</span>
-                                </c:when>
-                                <c:when test="${ticket.status eq 'SOLVED'}">
-                                    <span class="badge badge-pill badge-success">${ticket.status.name}</span>
-                                </c:when>
-                                <c:when test="${ticket.status eq 'NEW'}">
-                                    <span class="badge badge-pill badge-warning">${ticket.status.name}</span>
-                                </c:when>
-                                <c:when test="${ticket.status eq 'CLOSED'}">
-                                    <span class="badge badge-pill badge-dark">${ticket.status.name}</span>
-                                </c:when>
-                                <c:when test="${ticket.status eq 'ON_HOLD'}">
-                                    <span class="badge badge-pill badge-info">${ticket.status.name}</span>
-                                </c:when>
-                                <c:when test="${ticket.status eq 'IN_PROGRESS'}">
-                                    <span class="badge badge-pill badge-light">${ticket.status.name}</span>
-                                </c:when>
-                            </c:choose></td>
-                        <td>${ticket.priority.name}</td>
-                        <td>${ticket.description}</td>
-                        <td>${ticket.detectionProblemDescription}</td>
-                        <td>${ticket.discoveryProductVersion}</td>
-                        <td>${ticket.fixedProductVersion}</td>
-                        <td>${ticket.dateDiscovery}</td>
-                        <c:choose>
-                            <c:when test="${isAdmin or ticket.raisedBy.id eq currentUser.id}">
+            <c:forEach var="ticket" items="${ticketList}">
+                <div class="card w-60 p-0 m-0 mb-3">
+                    <div class="card-body">
+                        <table class="text-wrap text-break">
+                            <tr>
                                 <td>
-                                    <c:if test="${isInMemoryUser}">
-                                        <a href="/userpage/deleteTicket/${ticket.id}">delete</a>
-                                        <a href="/userpage/editTicket/${ticket.id}">edit</a>
-                                    </c:if>
-                                    <c:if test="${!isInMemoryUser}">
-                                        <a href="/userpage/${message2}/editTicket/${ticket.id}">edit</a>
-                                        <a href="/userpage/${message2}/deleteTicket/${ticket.id}">delete</a>
-                                    </c:if>
+                                    <c:choose>
+                                        <c:when test="${ticket.status eq 'OPEN'}">
+                                            <span class="badge badge-pill badge-primary">${ticket.status.name}</span>
+                                        </c:when>
+                                        <c:when test="${ticket.status eq 'SOLVED'}">
+                                            <span class="badge badge-pill badge-success">${ticket.status.name}</span>
+                                        </c:when>
+                                        <c:when test="${ticket.status eq 'NEW'}">
+                                            <span class="badge badge-pill badge-warning">${ticket.status.name}</span>
+                                        </c:when>
+                                        <c:when test="${ticket.status eq 'CLOSED'}">
+                                            <span class="badge badge-pill badge-dark">${ticket.status.name}</span>
+                                        </c:when>
+                                        <c:when test="${ticket.status eq 'ON_HOLD'}">
+                                            <span class="badge badge-pill badge-info">${ticket.status.name}</span>
+                                        </c:when>
+                                        <c:when test="${ticket.status eq 'IN_PROGRESS'}">
+                                            <span class="badge badge-pill badge-light">${ticket.status.name}</span>
+                                        </c:when>
+                                    </c:choose></td>
                                 </td>
-                            </c:when>
-                            <c:otherwise>
                                 <td>
+                                    <div class="ml-2">
+                                        <h6 class="card-subtitle text-muted">Description</h6>
+                                        <c:if test="${ticket.description.length() > 40}">
+                                            <c:set var="desc" value="${ticket.description.substring(0, 40)}..."/>
+                                            ${desc}
+                                        </c:if>
+                                        <c:if test="${ticket.description.length() <= 40}">
+                                            ${ticket.description}
+                                        </c:if>
+                                        <a data-toggle="modal" style="outline:none;" href="#exampleModalCenter${ticket.id}" role="button">show
+                                            more info</a>
+                                            <%--                                        <button class="btn btn-link" style="border:none;padding:0;" type="button" data-toggle="modal"--%>
+                                            <%--                                                data-target="#exampleModalCenter${ticket.id}">--%>
+                                            <%--                                            show more info--%>
+                                            <%--                                        </button>--%>
+                                        <div class="modal fade" id="exampleModalCenter${ticket.id}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle1">
+                                                            Description
+                                                            ticket</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                            ${ticket.description}
+                                                        <c:if test="${!empty ticket.detectionProblemDescription}">
+                                                            <h6 class="card-subtitle mb-2 mt-2 text-muted">Detection
+                                                                problem description</h6>
+                                                            ${ticket.detectionProblemDescription}
+                                                        </c:if>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
+                                            <%-- <p class="card-text ml-2">${ticket.description}</p> --%>
+
+                                        <!-- Modal -->
+                                    </div>
                                 </td>
-                            </c:otherwise>
-                        </c:choose>
-                        <td>
-                            <a href="/ticketPage/${ticket.id}">go to page</a>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered bg-light m-0 mt-2">
+                            <tr>
+                                <td>
+                                    <h6 class="card-subtitle mb-2 text-muted">assignee</h6>
+                                        ${ticket.assignedTo.firstName} ${ticket.assignedTo.secondName}
+                                </td>
+                                <td>
+                                    <h6 class="card-subtitle mb-2 text-muted">raised by</h6>
+                                        ${ticket.raisedBy.firstName} ${ticket.raisedBy.secondName}
+                                </td>
+                                <td>
+                                    <h6 class="card-subtitle mb-2 text-muted">priority</h6>
+                                        ${ticket.priority.name}
+                                </td>
+                                <td>
+                                    <h6 class="card-subtitle mb-2 text-muted">category</h6>
+                                        ${ticket.category.name}
+                                </td>
+                                <td>
+                                    <h6 class="card-subtitle mb-2 text-muted">date</h6>
+                                        ${ticket.dateDiscovery}
+                                </td>
+                                <c:choose>
+                                    <c:when test="${isAdmin or ticket.raisedBy.id eq currentUser.id}">
+                                        <td>
+                                            <c:if test="${isInMemoryUser}">
+                                                <p class="m-0"><a href="/userpage/deleteTicket/${ticket.id}">delete</a>
+                                                </p>
+                                                <p class="m-0"><a href="/userpage/editTicket/${ticket.id}">edit</a></p>
+                                            </c:if>
+                                            <c:if test="${!isInMemoryUser}">
+                                                <p class="m-0"><a href="/userpage/${message2}/editTicket/${ticket.id}">edit</a>
+                                                </p>
+                                                <p class="m-0"><a
+                                                        href="/userpage/${message2}/deleteTicket/${ticket.id}">delete</a>
+                                                </p>
+                                            </c:if>
+                                        </td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td>
+                                        </td>
+                                    </c:otherwise>
+                                </c:choose>
+                                <td>
+                                    <a href="/ticketPage/${ticket.id}">go to page</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </c:forEach>
         </div>
         <div class="col-sm">
             <c:if test="${isInMemoryUser}">

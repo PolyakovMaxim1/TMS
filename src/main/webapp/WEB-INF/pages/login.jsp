@@ -30,10 +30,14 @@
 <form action="/login" method="post">
     <div align="center" class="mt-4">
         <h2>Please sign in</h2>
-        <p>
-        <input class="form-control col-3" type="text" name="username" placeholder="Email Address or login"/>
-        <input class="form-control col-3 "type="password" name="password" placeholder="Password"/>
-        </p>
+<%--        <p>--%>
+<%--        <input class="form-control col-3" type="text" name="username" placeholder="Email Address or login"/>--%>
+<%--        <input class="form-control col-3 "type="password" name="password" placeholder="Password"/>--%>
+<%--        </p>--%>
+        <ul class="list-group list-group-flush">
+            <input class="form-control col-3" type="text" name="username" placeholder="Email Address or login"/>
+            <input class="form-control col-3 "type="password" name="password" placeholder="Password"/>
+        </ul>
         <p><button type="submit" class="btn btn-primary col-3 mt-2 mb-1">Sign in</button></p>
         <a href="/registration">Registration</a>
     </div>
